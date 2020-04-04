@@ -1,731 +1,301 @@
 "use strict"
 
-const pool = require("../database/database");
-const moment = require("moment");
+const tables = require("../Global/TablesName");
+const dateNow = require("../services/dateNow");
 const fs = require("fs");
-const { generalDir, dirSaveFile } = require("../Global/routesfilesDirs")
 
-//Obtine fecha actual
-function fechaCreacion() {
-
-    let ahora = moment();
-    return ahora.format('YYYY-MM-DD-HH-mm');
-}
+const extract_bodega = require("../extractFunctions/extract_bodega");
+const extract_clase_producto = require("../extractFunctions/extract_clase_producto");
+const extract_conexion = require("../extractFunctions/extract_conexion");
+const extract_control_sync = require("../extractFunctions/extract_control_sync");
+const extract_cuenta_correntista = require("../extractFunctions/extract_cuenta_correntista");
+const extract_cuenta_correntista_rel = require("../extractFunctions/extract_cuenta_correntista_rel");
+const extract_cuenta_cta = require("../extractFunctions/extract_cuenta_cta");
+const extract_cuenta_precio = require("../extractFunctions/extract_cuenta_precio");
+const extract_cuenta_tipo_precio = require("../extractFunctions/extract_cuenta_tipo_precio");
+const extract_dispositivo = require("../extractFunctions/extract_dispositivo");
+const extract_empresa = require("../extractFunctions/extract_empresa");
+const extract_error = require("../extractFunctions/extract_error");
+const extract_impresora = require("../extractFunctions/extract_impresora");
+const extract_inventario = require("../extractFunctions/extract_inventario");
+const extract_precio = require("../extractFunctions/extract_precio");
+const extract_producto = require("../extractFunctions/extract_producto");
+const extract_producto_u_m = require("../extractFunctions/extract_producto_u_m");
+const extract_s_doc_parametro = require("../extractFunctions/extract_s_doc_parametro");
+const extract_s_doc_t_car_abo = require("../extractFunctions/extract_s_doc_t_car_abo");
+const extract_s_doc_t_tra = require("../extractFunctions/extract_s_doc_t_tra");
+const extract_serie_documento = require("../extractFunctions/extract_serie_documento");
+const extract_serie_documento_user = require("../extractFunctions/extract_serie_documento_user");
+const extract_tipo_cargo_abono = require("../extractFunctions/extract_tipo_cargo_abono");
+const extract_tipo_documento = require("../extractFunctions/extract_tipo_documento");
+const extract_tipo_transaccion = require("../extractFunctions/extract_tipo_transaccion");
+const extract_unidad_medida = require("../extractFunctions/extract_unidad_medida");
+const extract_user_bodega = require("../extractFunctions/extract_user_bodega");
+const extract_usuario = require("../extractFunctions/extract_usuario");
 
 async function main(req, res) {
 
-    /*
-    //archivo tabla bodega
-    await pool.query("SELECT * FROM pos.bodega", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla bodega" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-bodega-" + fecha + ".json"
+    var resCreateFiles = [];
 
-                fs.writeFile(generalDir + dirSaveFile.bodega + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-    /*
+    await extract_bodega(tables[0], async function(resolve) {
+        if (resolve) {
+            resCreateFiles.push(resolve);
+            await extract_clase_producto(tables[1], async function(resolve) {
+                if (resolve) {
+                    resCreateFiles.push(resolve);
+                    await extract_conexion(tables[2], async function(resolve) {
+                        if (resolve) {
+                            resCreateFiles.push(resolve);
+                            await extract_control_sync(tables[3], async function(resolve) {
+                                if (resolve) {
+                                    resCreateFiles.push(resolve);
+                                    await extract_cuenta_correntista(tables[4], async function(resolve) {
+                                        if (resolve) {
+                                            resCreateFiles.push(resolve);
+                                            await extract_cuenta_correntista_rel(tables[5], async function(resolve) {
+                                                if (resolve) {
+                                                    resCreateFiles.push(resolve);
+                                                    await extract_cuenta_cta(tables[6], async function(resolve) {
+                                                        if (resolve) {
+                                                            resCreateFiles.push(resolve);
+                                                            await extract_cuenta_precio(tables[7], async function(resolve) {
+                                                                if (resolve) {
+                                                                    resCreateFiles.push(resolve);
+                                                                    await extract_cuenta_tipo_precio(tables[8], async function(resolve) {
+                                                                        if (resolve) {
+                                                                            resCreateFiles.push(resolve);
+                                                                            await extract_dispositivo(tables[9], async function(resolve) {
+                                                                                if (resolve) {
+                                                                                    resCreateFiles.push(resolve);
+                                                                                    await extract_empresa(tables[10], async function(resolve) {
+                                                                                        if (resolve) {
+                                                                                            resCreateFiles.push(resolve);
+                                                                                            await extract_error(tables[11], async function(resolve) {
+                                                                                                if (resolve) {
+                                                                                                    resCreateFiles.push(resolve);
+                                                                                                    await extract_impresora(tables[12], async function(resolve) {
+                                                                                                        if (resolve) {
+                                                                                                            resCreateFiles.push(resolve);
+                                                                                                            await extract_inventario(tables[13], async function(resolve) {
+                                                                                                                if (resolve) {
+                                                                                                                    resCreateFiles.push(resolve);
+                                                                                                                    await extract_precio(tables[14], async function(resolve) {
+                                                                                                                        if (resolve) {
+                                                                                                                            resCreateFiles.push(resolve);
+                                                                                                                            await extract_producto(tables[15], async function(resolve) {
+                                                                                                                                if (resolve) {
+                                                                                                                                    resCreateFiles.push(resolve);
+                                                                                                                                    await extract_producto_u_m(tables[16], async function(resolve) {
+                                                                                                                                        if (resolve) {
+                                                                                                                                            resCreateFiles.push(resolve);
+                                                                                                                                            await extract_s_doc_parametro(tables[17], async function(resolve) {
+                                                                                                                                                if (resolve) {
+                                                                                                                                                    resCreateFiles.push(resolve);
+                                                                                                                                                    await extract_s_doc_t_car_abo(tables[18], async function(resolve) {
+                                                                                                                                                        if (resolve) {
+                                                                                                                                                            resCreateFiles.push(resolve);
+                                                                                                                                                            await extract_s_doc_t_tra(tables[19], async function(resolve) {
+                                                                                                                                                                if (resolve) {
+                                                                                                                                                                    resCreateFiles.push(resolve);
+                                                                                                                                                                    await extract_serie_documento(tables[20], async function(resolve) {
+                                                                                                                                                                        if (resolve) {
+                                                                                                                                                                            resCreateFiles.push(resolve);
+                                                                                                                                                                            await extract_serie_documento_user(tables[21], async function(resolve) {
+                                                                                                                                                                                if (resolve) {
+                                                                                                                                                                                    resCreateFiles.push(resolve);
+                                                                                                                                                                                    await extract_tipo_cargo_abono(tables[22], async function(resolve) {
+                                                                                                                                                                                        if (resolve) {
+                                                                                                                                                                                            resCreateFiles.push(resolve);
+                                                                                                                                                                                            await extract_tipo_documento(tables[23], async function(resolve) {
+                                                                                                                                                                                                if (resolve) {
+                                                                                                                                                                                                    resCreateFiles.push(resolve);
+                                                                                                                                                                                                    await extract_tipo_transaccion(tables[24], async function(resolve) {
+                                                                                                                                                                                                        if (resolve) {
+                                                                                                                                                                                                            resCreateFiles.push(resolve);
+                                                                                                                                                                                                            await extract_unidad_medida(tables[25], async function(resolve) {
+                                                                                                                                                                                                                if (resolve) {
+                                                                                                                                                                                                                    resCreateFiles.push(resolve);
+                                                                                                                                                                                                                    await extract_user_bodega(tables[26], async function(resolve) {
+                                                                                                                                                                                                                        if (resolve) {
+                                                                                                                                                                                                                            resCreateFiles.push(resolve);
+                                                                                                                                                                                                                            await extract_usuario(tables[27], async function(resolve) {
+                                                                                                                                                                                                                                if (resolve) {
+                                                                                                                                                                                                                                    resCreateFiles.push(resolve);
 
-     //archivo tabla clase_producto
-     await pool.query("SELECT * FROM pos.clase_producto", function(err, result) {
-         if (err) {
-             res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-         } else {
-             if (Object.entries(result).length === 0) {
-                 res.status(404).send({ message: "No hay ningún dato disponible en la tabla clase_producto" });
-             } else {
-                 //crear archivo .json
-                 let fecha = fechaCreacion();
-                 let name = "tbl-clase_producto-" + fecha + ".json"
-                 fs.writeFile(generalDir + dirSaveFile.clase_producto + name, JSON.stringify(result), function(err) {
-                     if (err) {
-                         res.status(500).send({ message: "error al crear archivo" });
-                     } else {
-                         //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                         res.status(200).send({ message: name })
-                     }
-                 });
-             }
-         }
-     });
-     */
-    /*
-    //archivo tabla conexion 
-    await pool.query("SELECT * FROM pos.conexion", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla conexion" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-conexion-" + fecha + ".json"
-                fs.writeFile(generalDir + dirSaveFile.conexion + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
+                                                                                                                                                                                                                                    var contentFile = [];
 
-    */
+                                                                                                                                                                                                                                    resCreateFiles.forEach(items => {
+                                                                                                                                                                                                                                        if (items != 1 && items != 2 && items && items != 3) {
+                                                                                                                                                                                                                                            contentFile.push(items);
+                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                            if (items === 1) {
+                                                                                                                                                                                                                                                contentFile.push("Error internal Server");
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                            if (items === 2) {
+                                                                                                                                                                                                                                                contentFile.push("No data available in table");
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                            if (items === 3) {
+                                                                                                                                                                                                                                                contentFile.push("Error creating file")
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                        }
 
-    /*
-    //archivo tabla control_sync
-    await pool.query("SELECT * FROM pos.control_sync", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla control_sync" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-control_sync-" + fecha + ".json"
-                fs.writeFile(generalDir + dirSaveFile.control_sync + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-    /*
-     //archivo tabla cuenta_correntista
-     await pool.query("SELECT * FROM pos.cuenta_correntista", function(err, result) {
-         if (err) {
-             res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-         } else {
-             if (Object.entries(result).length === 0) {
-                 res.status(404).send({ message: "No hay ningún dato disponible en la tabla cuenta_correntista" });
-             } else {
-                 //crear archivo .json
-                 let fecha = fechaCreacion();
-                 let name = "tbl-cuenta_correntista-" + fecha + ".json"
-                 fs.writeFile(generalDir + dirSaveFile.cuenta_correntista + name, JSON.stringify(result), function(err) {
-                     if (err) {
-                         res.status(500).send({ message: "error al crear archivo" });
-                     } else {
-                         //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                         res.status(200).send({ message: name })
-                     }
-                 });
-             }
-         }
-     });
-     */
-    /*
-    //archivo tabla cuenta_correntista_rel
-    await pool.query("SELECT * FROM pos.cuenta_correntista_rel", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla cuenta_correntista_rel" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-cuenta_correntista_rel-" + fecha + ".json"
-                fs.writeFile(generalDir + dirSaveFile.cuenta_correntista_rel + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-    /*
+                                                                                                                                                                                                                                    });
 
-     //archivo tabla cuenta_cta
-     await pool.query("SELECT * FROM pos.cuenta_cta", function(err, result) {
-         if (err) {
-             res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-         } else {
-             if (Object.entries(result).length === 0) {
-                 res.status(404).send({ message: "No hay ningún dato disponible en la tabla cuenta_cta" });
-             } else {
-                 //crear archivo .json
-                 let fecha = fechaCreacion();
-                 let name = "tbl-cuenta_cta-" + fecha + ".json"
-                 fs.writeFile(generalDir + dirSaveFile.cuenta_cta + name, JSON.stringify(result), function(err) {
-                     if (err) {
-                         res.status(500).send({ message: "error al crear archivo" });
-                     } else {
-                         //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                         res.status(200).send({ message: name })
-                     }
-                 });
-             }
-         }
-     });
-     */
+                                                                                                                                                                                                                                    var finallyContentFile = [{
+                                                                                                                                                                                                                                        bodega: contentFile[0],
+                                                                                                                                                                                                                                        clase_producto: contentFile[1],
+                                                                                                                                                                                                                                        conexion: contentFile[2],
+                                                                                                                                                                                                                                        control_sync: contentFile[3],
+                                                                                                                                                                                                                                        cuenta_correntista: contentFile[4],
+                                                                                                                                                                                                                                        cuenta_correntista_rel: contentFile[5],
+                                                                                                                                                                                                                                        cuenta_cta: contentFile[6],
+                                                                                                                                                                                                                                        cuenta_precio: contentFile[7],
+                                                                                                                                                                                                                                        cuenta_tipo_precio: contentFile[8],
+                                                                                                                                                                                                                                        dispositivo: contentFile[9],
+                                                                                                                                                                                                                                        empresa: contentFile[10],
+                                                                                                                                                                                                                                        error: contentFile[11],
+                                                                                                                                                                                                                                        impresora: contentFile[12],
+                                                                                                                                                                                                                                        inventario: contentFile[13],
+                                                                                                                                                                                                                                        precio: contentFile[14],
+                                                                                                                                                                                                                                        producto: contentFile[15],
+                                                                                                                                                                                                                                        producto_u_m: contentFile[16],
+                                                                                                                                                                                                                                        s_doc_parametro: contentFile[17],
+                                                                                                                                                                                                                                        s_doc_t_car_abo: contentFile[18],
+                                                                                                                                                                                                                                        s_doc_t_tra: contentFile[19],
+                                                                                                                                                                                                                                        serie_documento: contentFile[20],
+                                                                                                                                                                                                                                        serie_documento_user: contentFile[21],
+                                                                                                                                                                                                                                        tipo_cargo_abono: contentFile[22],
+                                                                                                                                                                                                                                        tipo_documento: contentFile[23],
+                                                                                                                                                                                                                                        tipo_transaccion: contentFile[24],
+                                                                                                                                                                                                                                        unidad_medida: contentFile[25],
+                                                                                                                                                                                                                                        user_bodega: contentFile[26],
+                                                                                                                                                                                                                                        usuario: contentFile[27],
+                                                                                                                                                                                                                                    }];
 
-    /*
-    //archivo tabla cuenta_precio
-    await pool.query("SELECT * FROM pos.cuenta_precio", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla cuenta_precio" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-cuenta_precio-" + fecha + ".json"
-                fs.writeFile(generalDir + dirSaveFile.cuenta_precio + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
+                                                                                                                                                                                                                                    let _dateNow = dateNow();
+                                                                                                                                                                                                                                    let name = "loadFilesData" + _dateNow;
+                                                                                                                                                                                                                                    let text = JSON.stringify(finallyContentFile);
 
-    */
-
-    /*
-    //archivo tabla cuenta_tipo_precio
-    await pool.query("SELECT * FROM pos.cuenta_tipo_precio", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla cuenta_tipo_precio" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-cuenta_tipo_precio-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.cuenta_tipo_precio + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-    /*
-
-     //archivo tabla dispositivo
-     await pool.query("SELECT * FROM pos.dispositivo", function(err, result) {
-         if (err) {
-             res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-         } else {
-             if (Object.entries(result).length === 0) {
-                 res.status(404).send({ message: "No hay ningún dato disponible en la tabla dispositivo" });
-             } else {
-                 //crear archivo .json
-                 let fecha = fechaCreacion();
-                 let name = "tbl-dispositivo-" + fecha + ".json"
-
-                 fs.writeFile(generalDir + dirSaveFile.dispositivo + name, JSON.stringify(result), function(err) {
-                     if (err) {
-                         res.status(500).send({ message: "error al crear archivo" });
-                     } else {
-                         //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                         res.status(200).send({ message: name })
-                     }
-                 });
-             }
-         }
-     });
-     */
-
-    /*
-    //archivo tabla empresa
-    await pool.query("SELECT * FROM pos.empresa", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla empresa" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-empresa-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.empresa + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-*/
-    /*
-        //archivo tabla error
-        await pool.query("SELECT * FROM pos.error", function(err, result) {
-            if (err) {
-                res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-            } else {
-                if (Object.entries(result).length === 0) {
-                    res.status(404).send({ message: "No hay ningún dato disponible en la tabla error" });
-                } else {
-                    //crear archivo .json
-                    let fecha = fechaCreacion();
-                    let name = "tbl-error-" + fecha + ".json"
-
-                    fs.writeFile(generalDir + dirSaveFile.error + name, JSON.stringify(result), function(err) {
-                        if (err) {
-                            res.status(500).send({ message: "error al crear archivo" });
+                                                                                                                                                                                                                                    fs.writeFile("C:/Users/rober/Desktop/test/" + name + ".json", text, function(err) {
+                                                                                                                                                                                                                                        if (err) {
+                                                                                                                                                                                                                                            res.status(500).send({ message: "Error al crear archivo final" });
+                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                            //si todo se ejecut acorrectmente devuelve el nombre del archivo
+                                                                                                                                                                                                                                            res.status(200).send({ message: name + ".json" })
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                                } else {
+                                                                                                                                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                            });
+                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                } else {
+                                                                                                                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                    });
+                                                                                                                                                                                                } else {
+                                                                                                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                                                }
+                                                                                                                                                                                            });
+                                                                                                                                                                                        } else {
+                                                                                                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                                        }
+                                                                                                                                                                                    });
+                                                                                                                                                                                } else {
+                                                                                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                                }
+                                                                                                                                                                            });
+                                                                                                                                                                        } else {
+                                                                                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                        }
+                                                                                                                                                                    });
+                                                                                                                                                                } else {
+                                                                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                                }
+                                                                                                                                                            });
+                                                                                                                                                        } else {
+                                                                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                        }
+                                                                                                                                                    });
+                                                                                                                                                } else {
+                                                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                                }
+                                                                                                                                            });
+                                                                                                                                        } else {
+                                                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                        }
+                                                                                                                                    });
+                                                                                                                                } else {
+                                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                                }
+                                                                                                                            });
+                                                                                                                        } else {
+                                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                        }
+                                                                                                                    });
+                                                                                                                } else {
+                                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                                }
+                                                                                                            });
+                                                                                                        } else {
+                                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                        }
+                                                                                                    });
+                                                                                                } else {
+                                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                                }
+                                                                                            });
+                                                                                        } else {
+                                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                        }
+                                                                                    });
+                                                                                } else {
+                                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                                }
+                                                                            });
+                                                                        } else {
+                                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                        }
+                                                                    });
+                                                                } else {
+                                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                                }
+                                                            });
+                                                        } else {
+                                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                                        }
+                                                    });
+                                                } else {
+                                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                                }
+                                            });
+                                        } else {
+                                            res.status(500).send({ message: "Ha ocurrido un error" });
+                                        }
+                                    });
+                                } else {
+                                    res.status(500).send({ message: "Ha ocurrido un error" });
+                                }
+                            });
                         } else {
-                            //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                            res.status(200).send({ message: name })
+                            res.status(500).send({ message: "Ha ocurrido un error" });
                         }
                     });
-                }
-            }
-        });
-        */
-    /*
-
-    //archivo tabla impresora
-    await pool.query("SELECT * FROM pos.impresora", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla impresora" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-impresora-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.impresora + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-
-    /*
-    //archivo tabla inventario
-    await pool.query("SELECT * FROM pos.inventario", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla inventario" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-inventario-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.inventario + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-
-    /*
-    //archivo tabla precio
-    await pool.query("SELECT * FROM pos.precio", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla precio" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-precio-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.precio + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-
-    /*
-    //archivo tabla producto
-    await pool.query("SELECT * FROM pos.producto", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla producto" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-producto-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.producto + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-    /*
-     //archivo tabla producto_u_m
-     await pool.query("SELECT * FROM pos.producto_u_m", function(err, result) {
-         if (err) {
-             res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-         } else {
-             if (Object.entries(result).length === 0) {
-                 res.status(404).send({ message: "No hay ningún dato disponible en la tabla producto_u_m" });
-             } else {
-                 //crear archivo .json
-                 let fecha = fechaCreacion();
-                 let name = "tbl-producto_u_m-" + fecha + ".json"
-
-                 fs.writeFile(generalDir + dirSaveFile.producto_u_m + name, JSON.stringify(result), function(err) {
-                     if (err) {
-                         res.status(500).send({ message: "error al crear archivo" });
-                     } else {
-                         //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                         res.status(200).send({ message: name })
-                     }
-                 });
-             }
-         }
-     });
-     */
-    /*
-    //archivo tabla s_doc_parametro
-    await pool.query("SELECT * FROM pos.s_doc_parametro", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla s_doc_parametro" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-s_doc_parametro-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.s_doc_parametro + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-*/
-    /*
-
-        //archivo tabla s_doc_t_car_abo
-        await pool.query("SELECT * FROM pos.s_doc_t_car_abo", function(err, result) {
-            if (err) {
-                res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-            } else {
-                if (Object.entries(result).length === 0) {
-                    res.status(404).send({ message: "No hay ningún dato disponible en la tabla s_doc_t_car_abo" });
                 } else {
-                    //crear archivo .json
-                    let fecha = fechaCreacion();
-                    let name = "tbl-s_doc_t_car_abo-" + fecha + ".json"
-
-                    fs.writeFile(generalDir + dirSaveFile.s_doc_t_car_abo + name, JSON.stringify(result), function(err) {
-                        if (err) {
-                            res.status(500).send({ message: "error al crear archivo" });
-                        } else {
-                            //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                            res.status(200).send({ message: name })
-                        }
-                    });
+                    res.status(500).send({ message: "Ha ocurrido un error" });
                 }
-            }
-        });
-    */
-    /*
-    //archivo tabla s_doc_t_tra
-    await pool.query("SELECT * FROM pos.s_doc_t_tra", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
+            });
         } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla s_doc_t_tra" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-s_doc_t_tra-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.s_doc_t_tra + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
+            res.status(500).send({ message: "Ha ocurrido un error" });
         }
     });
-*/
-    /*
-        //archivo tabla serie_documento
-        await pool.query("SELECT * FROM pos.serie_documento", function(err, result) {
-            if (err) {
-                res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-            } else {
-                if (Object.entries(result).length === 0) {
-                    res.status(404).send({ message: "No hay ningún dato disponible en la tabla serie_documento" });
-                } else {
-                    //crear archivo .json
-                    let fecha = fechaCreacion();
-                    let name = "tbl-serie_documento-" + fecha + ".json"
-
-                    fs.writeFile(generalDir + dirSaveFile.serie_documento + name, JSON.stringify(result), function(err) {
-                        if (err) {
-                            res.status(500).send({ message: "error al crear archivo" });
-                        } else {
-                            //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                            res.status(200).send({ message: name })
-                        }
-                    });
-                }
-            }
-        });
-      
-      */
-    /*
-    //archivo tabla serie_documento_user
-    await pool.query("SELECT * FROM pos.serie_documento_user", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla serie_documento_user" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-serie_documento_user-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.serie_documento_user + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-*/
-    /*
-
-        //archivo tabla tipo_cargo_abono
-        await pool.query("SELECT * FROM pos.tipo_cargo_abono", function(err, result) {
-            if (err) {
-                res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-            } else {
-                if (Object.entries(result).length === 0) {
-                    res.status(404).send({ message: "No hay ningún dato disponible en la tabla tipo_cargo_abono" });
-                } else {
-                    //crear archivo .json
-                    let fecha = fechaCreacion();
-                    let name = "tbl-tipo_cargo_abono-" + fecha + ".json"
-
-                    fs.writeFile(generalDir + dirSaveFile.tipo_cargo_abono + name, JSON.stringify(result), function(err) {
-                        if (err) {
-                            res.status(500).send({ message: "error al crear archivo" });
-                        } else {
-                            //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                            res.status(200).send({ message: name })
-                        }
-                    });
-                }
-            }
-        });
-      */
-    /*
-    //archivo tabla tipo_documento
-    await pool.query("SELECT * FROM pos.tipo_documento", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla tipo_documento" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-tipo_documento-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.tipo_documento + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-    /*
-
-     //archivo tabla tipo_transaccion
-     await pool.query("SELECT * FROM pos.tipo_transaccion", function(err, result) {
-         if (err) {
-             res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-         } else {
-             if (Object.entries(result).length === 0) {
-                 res.status(404).send({ message: "No hay ningún dato disponible en la tabla tipo_transaccion" });
-             } else {
-                 //crear archivo .json
-                 let fecha = fechaCreacion();
-                 let name = "tbl-tipo_transaccion-" + fecha + ".json"
-
-                 fs.writeFile(generalDir + dirSaveFile.tipo_transaccion + name, JSON.stringify(result), function(err) {
-                     if (err) {
-                         res.status(500).send({ message: "error al crear archivo" });
-                     } else {
-                         //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                         res.status(200).send({ message: name })
-                     }
-                 });
-             }
-         }
-     });
-     */
-    /*
-
-    //archivo tabla unidad_medida
-    await pool.query("SELECT * FROM pos.unidad_medida", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla unidad_medida" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-unidad_medida-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.unidad_medida + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-    */
-    /*
-     //archivo tabla user_bodega
-     await pool.query("SELECT * FROM pos.user_bodega", function(err, result) {
-         if (err) {
-             res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-         } else {
-             if (Object.entries(result).length === 0) {
-                 res.status(404).send({ message: "No hay ningún dato disponible en la tabla user_bodega" });
-             } else {
-                 //crear archivo .json
-                 let fecha = fechaCreacion();
-                 let name = "tbl-user_bodega-" + fecha + ".json"
-
-                 fs.writeFile(generalDir + dirSaveFile.user_bodega + name, JSON.stringify(result), function(err) {
-                     if (err) {
-                         res.status(500).send({ message: "error al crear archivo" });
-                     } else {
-                         //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                         res.status(200).send({ message: name })
-                     }
-                 });
-             }
-         }
-     });
-     */
-    //archivo tabla usuario
-    await pool.query("SELECT * FROM pos.usuario", function(err, result) {
-        if (err) {
-            res.status(500).send({ message: "Error, vuelva a intentarlo más tarde" });
-        } else {
-            if (Object.entries(result).length === 0) {
-                res.status(404).send({ message: "No hay ningún dato disponible en la tabla usuario" });
-            } else {
-                //crear archivo .json
-                let fecha = fechaCreacion();
-                let name = "tbl-usuario-" + fecha + ".json"
-
-                fs.writeFile(generalDir + dirSaveFile.usuario + name, JSON.stringify(result), function(err) {
-                    if (err) {
-                        res.status(500).send({ message: "error al crear archivo" });
-                    } else {
-                        //si todo se ejecut acorrectmente devuelve el nombre del archivo
-                        res.status(200).send({ message: name })
-                    }
-                });
-            }
-        }
-    });
-
-    //    res.status(200).send({ message: "Hola mundo" })
-
 }
 
 module.exports = {
