@@ -40,12 +40,12 @@ async function main(req, res) {
     const { name } = req.body;
 
     if (!name) {
-        res.status(404).send({ message: "No existe el archivo(1)" })
+        res.status(404).send({ message: "Nombre de archivo principal requerido (1)" })
     } else {
 
-        fs.readFile(generalDir + name, async function(err, text) {
+        fs.readFile(generalDir + dirSaveFile.nombresArchivo + name, async function(err, text) {
             if (err) {
-                res.status("Error al leer el archivo")
+                res.status(404).send({ message: "Archivo principal no localizado (1)" })
             } else {
 
                 const nameFiles = JSON.parse(text);
