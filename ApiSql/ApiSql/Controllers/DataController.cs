@@ -79,7 +79,7 @@ namespace ApiSql.Controllers
                 string path = ConfigurationManager.AppSettings["PathFile"];
                 string fileName = "loadFilesData"+ dateTime.ToString("yyyy-MM-dd-HH-mm") + ".json";
 
-                TextWriter textWriter = new StreamWriter(path+fileName);
+                TextWriter textWriter = new StreamWriter(path+ "01.loadFilesData/" + fileName);
                 textWriter.Write("["+contentFile+"]");
                 textWriter.Close();
 
@@ -87,7 +87,7 @@ namespace ApiSql.Controllers
                 string fileName2 = "loadFilesDataFormatIdented" + dateTime.ToString("yyyy-MM-dd-HH-mm") + ".json";
 
                 string contentFile2 = JsonConvert.SerializeObject(nameFiles,Formatting.Indented);
-                TextWriter textWriter2 = new StreamWriter( path + fileName2);
+                TextWriter textWriter2 = new StreamWriter( path+ "01.loadFilesDataFormatIdented/" + fileName2);
                 textWriter2.Write("[" + contentFile2 + "]");
                 textWriter2.Close();
 
@@ -108,7 +108,7 @@ namespace ApiSql.Controllers
                 return "No existe el archivo (1)";
             }
 
-            string ruta = "C:/Users/rober/Desktop/test/";
+            string ruta = ConfigurationManager.AppSettings["PathFile"];
             string text;
 
             try

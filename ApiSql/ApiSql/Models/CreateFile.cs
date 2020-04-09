@@ -44,7 +44,7 @@ namespace ApiSql.Models
             {
                 try {
                     //Crear y escribir archivo
-                    TextWriter textWriter = new StreamWriter(path + name);
+                    TextWriter textWriter = new StreamWriter(path + tableName +"/"+ name);
                     textWriter.Write(contentFile);
                     textWriter.Close();
 
