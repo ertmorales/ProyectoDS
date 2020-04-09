@@ -2,6 +2,7 @@
 const pool = require("../database/database");
 const fs = require("fs");
 const { generalDir, dirSaveFile } = require("../Global/routesfilesDirs");
+const encryptPass_Key = require("../services/encryptPass");
 
 async function rowValues(name, callback) {
     if (!name) {
@@ -25,7 +26,13 @@ async function rowValues(name, callback) {
                     datos.forEach(async row => {
 
                         await pool.query("select Id from pos.usuario where UserName = ?", [row.UserName],
-                            function(err, result) {
+                            async function(err, result) {
+
+                                await encryptPass_Key(row.Pass_Key, async function(Encrypt) {
+                                    if (Encrypt) {
+                                        row.Pass_Key = Encrypt;
+                                    }
+                                });
 
                                 //Proceso en consola
                                 console.group("Procesando...")
