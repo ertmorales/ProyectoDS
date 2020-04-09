@@ -3,7 +3,7 @@ import { Component, OnInit, ɵNoopNgZone } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 
 //Modelos
-import { UserLogin } from "./models/userLogin.models";
+import { UserLogin } from "./models/usuario.models/usuarioLogin";
 
 //Servicios
 import { UsuarioService } from "./services/usuario.service";
@@ -98,46 +98,40 @@ export class AppComponent implements OnInit {
       res => {
         this.identity = res[0];
 
-        if (!this.identity) {
+        //guardar sesión
+        localStorage.setItem("identity", JSON.stringify(this.identity));
+        this._userSrvice.login(this.userLogin).subscribe(
+          res => {
+            var datejson = JSON.stringify(res);
+            let datjson = JSON.parse(datejson);
+            let token = datjson.token;
+            this.token = token;
 
-          this.progressLogin = false;
-          alert("Usuario no identificado");
+            if (this.token.length <= 0) {
 
-        } else {
-          //guardar sesión
-          localStorage.setItem("identity", JSON.stringify(this.identity));
-          this._userSrvice.login(this.userLogin).subscribe(
-            res => {
-              var datejson = JSON.stringify(res);
-              let datjson = JSON.parse(datejson);
-              let token = datjson.token;
-              this.token = token;
+              this.progressLogin = false;
 
-              if (this.token.length <= 0) {
-
-                this.progressLogin = false;
-
-                alert("Error al inicar sesion");
+              alert("Error al inicar sesion");
 
 
-              } else {
-                //crear elemento en loclstorage
-                localStorage.setItem("token", token);
-              }
-            },
-            err => {
-              var errorMessage = <any>err
-              if (errorMessage != null) {
-
-                this.progressLogin = false;
-                this.errorMessage = err.error.messaje;
-              }
+            } else {
+              //crear elemento en loclstorage
+              localStorage.setItem("token", token);
             }
-          );
+          },
+          err => {
+            var errorMessage = <any>err
+            if (errorMessage != null) {
 
-          this.progressLogin = false;
-          this.userLogin.UserName = "";
-        }
+              this.progressLogin = false;
+              this.errorMessage = err.error.messaje;
+            }
+          }
+        );
+
+        this.progressLogin = false;
+        this.userLogin.UserName = "";
+
       },
       err => {
         const errorMessage = <any>err;
@@ -158,21 +152,21 @@ export class AppComponent implements OnInit {
       this.viewLoader();
       this._serviceSql.getData().subscribe(
         res => {
-         this._serviceMariaDB.setData(res).subscribe(
-           res=>{
-            this.viewLoader();
-            let resJson = JSON.stringify(res);
-            let restext = JSON.parse(resJson);
-            alert(restext.message);
-            return;
-           },
-           err=>{
-            this.viewLoader();
-            console.log(err);
-            alert("Ha ocurrido un error");
-            return;
-           }
-         );
+          this._serviceMariaDB.setData(res).subscribe(
+            res => {
+              this.viewLoader();
+              let resJson = JSON.stringify(res);
+              let restext = JSON.parse(resJson);
+              alert(restext.message);
+              return;
+            },
+            err => {
+              this.viewLoader();
+              console.log(err);
+              alert("Ha ocurrido un error");
+              return;
+            }
+          );
         },
         err => {
           this.viewLoader();
@@ -196,7 +190,8 @@ export class AppComponent implements OnInit {
           let fileJson = JSON.parse(resFile);
 
           this._serviceSql.setData(fileJson.message).subscribe(
-            res => {console.log(fileJson.message);
+            res => {
+              console.log(fileJson.message);
               this.viewLoader();
               alert(res);
               return;
