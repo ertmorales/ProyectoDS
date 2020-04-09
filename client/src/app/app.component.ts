@@ -3,12 +3,10 @@ import { Component, OnInit, ɵNoopNgZone } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 
 //Modelos
-import { User } from "./models/user.models";
-import { UserdataSql } from "./models/usersql.models"
-import { DataTableUSer } from "./models/dataTableUser.models"
+import { UserLogin } from "./models/userLogin.models";
 
 //Servicios
-import { UserService } from "./services/user.service";
+import { UsuarioService } from "./services/usuario.service";
 import { ServiceSql } from "./services/DataSqlServer";
 import { ServiceMariaBD } from "./services/DataMariaBD";
 
@@ -21,13 +19,13 @@ declare var $: any;
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [ServiceMariaBD, UserService, ServiceSql]
+  providers: [ServiceMariaBD, UsuarioService, ServiceSql]
 })
 
 export class AppComponent implements OnInit {
 
   //Modelos
-  public user: User;
+  public userLogin: UserLogin;
 
   //datos usuario
   public identity;
@@ -47,17 +45,17 @@ export class AppComponent implements OnInit {
   public visibleProd03: boolean;
   public visibleContact: boolean;
   public visibleUserInfo: boolean;
-  public initlog: boolean = false;
+  public progressLogin: boolean = false;
   public loader: boolean = false;
 
   constructor(
     //iniciar servicio
-    private _userSrvice: UserService,
+    private _userSrvice: UsuarioService,
     private _serviceSql: ServiceSql,
     private _serviceMariaDB: ServiceMariaBD
   ) {
     //iniciar Modelos (No es tan necesario)
-    this.user = new User("", "");
+    this.userLogin = new UserLogin("", "");
   }
 
   //al inicar la página
@@ -83,6 +81,7 @@ export class AppComponent implements OnInit {
     $(this).toggleClass('active');
   }
 
+  //Progress-Circle
   public viewLoader() {
 
     if (!this.loader) {
@@ -91,21 +90,23 @@ export class AppComponent implements OnInit {
       this.loader = false;
     }
   }
-  public onSubmit() {
-    this.initlog = true;
-    this._userSrvice.signup(this.user).subscribe(
+
+  //Login
+  public onLogin() {
+    this.progressLogin = true;
+    this._userSrvice.login(this.userLogin).subscribe(
       res => {
         this.identity = res[0];
 
         if (!this.identity) {
 
-          this.initlog = false;
+          this.progressLogin = false;
           alert("Usuario no identificado");
 
         } else {
           //guardar sesión
           localStorage.setItem("identity", JSON.stringify(this.identity));
-          this._userSrvice.signup(this.user).subscribe(
+          this._userSrvice.login(this.userLogin).subscribe(
             res => {
               var datejson = JSON.stringify(res);
               let datjson = JSON.parse(datejson);
@@ -114,7 +115,7 @@ export class AppComponent implements OnInit {
 
               if (this.token.length <= 0) {
 
-                this.initlog = false;
+                this.progressLogin = false;
 
                 alert("Error al inicar sesion");
 
@@ -128,14 +129,14 @@ export class AppComponent implements OnInit {
               var errorMessage = <any>err
               if (errorMessage != null) {
 
-                this.initlog = false;
+                this.progressLogin = false;
                 this.errorMessage = err.error.messaje;
               }
             }
           );
 
-          this.initlog = false;
-          this.user.UserName = "";
+          this.progressLogin = false;
+          this.userLogin.UserName = "";
         }
       },
       err => {
@@ -143,9 +144,9 @@ export class AppComponent implements OnInit {
         if (errorMessage != null) {
           console.log(err);
 
-          this.initlog = false;
+          this.progressLogin = false;
           this.errorMessage = err.error.message;
-          this.user.Pass_Key = "";
+          this.userLogin.Pass_Key = "";
         }
       }
     );
