@@ -61,9 +61,15 @@
                 <img id="logo" src="assets/img/Empresa.png" class="center">
             </div>
             <ul class="list-unstyled components">
+
                 <li>
                     <a href="#" (click)="viewInit()"><i class="left fas fa-home"></i>Inicio</a>
                 </li>
+
+                <li>
+                    <a (click)="Facturacion()" href="#"><i class="left fas fa-money-bill-wave"></i>Facturación</a>
+                </li>
+
                 <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <i class="left fas fa-clipboard-list"></i>Servicios
@@ -112,10 +118,10 @@
                             </li>
 
                             <li>
-                                <a (click)="syncData()" href="#"><i class="subLeft fas fa-database"></i><i class="subLeft fas fa-sync-alt"></i>SQL Server > MariaBD</a>
+                                <a (click)="syncData()" href="#"><i class="subLeft fas fa-database"></i><i class="subLeft fas fa-sync-alt"></i>Sincronizar</a>
                             </li>
                             <li>
-                                <a (click)="migrateData()" href="#"><i class="subLeft fas fa-database"></i><i class="subLeft fas fa-sync-alt"></i>MariaDB > SQL Server</a>
+                                <a (click)="migrateData()" href="#"><i class="subLeft fas fa-database"></i><i class="subLeft fas fa-sync-alt"></i>Migrar</a>
                             </li>
 
                         </ul>
@@ -156,9 +162,11 @@
             <div *ngIf="visibleContact">
                 <app-contact></app-contact>
             </div>
-
             <div *ngIf="loader">
                 <app-load-task></app-load-task>
+            </div>
+            <div *ngIf="visibleFact">
+                <app-facturacion></app-facturacion>
             </div>
         </div>
     </div>

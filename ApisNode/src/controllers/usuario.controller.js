@@ -1,5 +1,4 @@
 "use stric"
-"use strict"
 
 const pool = require("../database/database");
 const bcrypt = require("bcrypt-nodejs");

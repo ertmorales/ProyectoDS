@@ -10,6 +10,9 @@ const app = express();
 //rutas Apis
 const getData_routes = require("./routes/sync.routes");
 const usuario_routes = require("./routes/usuario.routes");
+const producto_routes = require("./routes/producto.routes");
+const cuenta_correntista_routes = require("./routes/cuenta_correntista.routes")
+
 
 //parseo de JSON
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,7 +31,9 @@ app.use((req, res, next) => {
 
 //rutas http
 app.use("/api", getData_routes);
-app.use("/api/", usuario_routes);
+app.use("/api", usuario_routes);
+app.use("/api", producto_routes);
+app.use("/api", cuenta_correntista_routes)
 
 //exportacion en todo el proyecto
 module.exports = app;
