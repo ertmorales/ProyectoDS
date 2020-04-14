@@ -2,12 +2,19 @@ import { Component, OnInit } from '@angular/core';
 
 //Servicios
 import { Cuenta_Correntista_Service } from "../services/cuenta_correntista.service";
+import { Producto_Service } from "../services/producto.service";
 
 //Modelos
 import { Cuenta_correntista_nombre } from "../models/cuenta_correntista.models/cuenta_correntista_nombre";
 import { Cuenta_correntista_Id } from "../models/cuenta_correntista.models/cuenta_correntista_Id";
 import { Cuenta_correntista_NIT } from "../models/cuenta_correntista.models/cuenta_correntista_NIT";
 import { Buscar_cuenta_correntista } from "../models/cuenta_correntista.models/buscar_cuenta_correntista";
+
+import { Buscar_producto } from "../models/producto.models/buscar_producto";
+import { Producto_Descripcion } from "../models/producto.models/producto_Descripcion";
+import { Producto_Producto } from "../models/producto.models/producto_Producto"
+
+import { ThrowStmt } from '@angular/compiler';
 
 //jQuery
 declare var jQuery: any;
@@ -17,7 +24,10 @@ declare var $: any;
   selector: 'app-facturacion',
   templateUrl: './facturacion.component.html',
   styleUrls: ['./facturacion.component.css'],
-  providers: [Cuenta_Correntista_Service]
+  providers: [
+    Cuenta_Correntista_Service,
+    Producto_Service
+  ]
 })
 export class FacturacionComponent implements OnInit {
 
@@ -30,11 +40,22 @@ export class FacturacionComponent implements OnInit {
   public clientIdentity;
   public errorMessage;
   public listClientIdentyty;
+  public _selectC = false;
 
+  public buscar_producto: Buscar_producto;
+  public producto_producto: Producto_Producto;
+  public producto_Descripcion: Producto_Descripcion;
+
+  public errorMessageProd;
+  public prodIdentity;
+  public listProdIdentity;
+  
   constructor(
-    private _cuenta_correntista_Service: Cuenta_Correntista_Service
+    private _cuenta_correntista_Service: Cuenta_Correntista_Service,
+    private _producto_Service: Producto_Service
   ) {
-    this.buscar_cuenta_correntista = new Buscar_cuenta_correntista("")
+    this.buscar_cuenta_correntista = new Buscar_cuenta_correntista("");
+    this.buscar_producto = new Buscar_producto("");
   }
 
   ngOnInit() {
@@ -106,6 +127,7 @@ export class FacturacionComponent implements OnInit {
     }
   }
 
+  //lista de cuentas
   public listClient() {
     this._cuenta_correntista_Service.cuenta_correntista().subscribe(
       res => {
@@ -118,6 +140,73 @@ export class FacturacionComponent implements OnInit {
         this.errorMessage = err.error.message;
         this.clientIdentity = null;
         this.listClientIdentyty = null;
+      }
+    );
+  }
+
+  //seleccionar una cuenta
+  public selectC() {
+    this._selectC = true;
+  }
+
+  //Des-seleccionar una cuenta
+  public selectCC() {
+    this._selectC = false;
+  }
+
+  //Buscar producto
+  public SearchProd() {
+    
+    let buscar = JSON.stringify(this.buscar_producto);
+    let _buscar = JSON.parse(buscar)
+
+    //validar si se busca por Id o por descripcion
+    if (isNaN(_buscar.buscar)) {
+      //Buscar por Descripcion
+      this.producto_Descripcion = new Producto_Descripcion(_buscar.buscar)
+      this._producto_Service.producto_Descripcion(this.producto_Descripcion).subscribe(
+        res=>{
+          this.prodIdentity = res[0];
+          this.errorMessageProd = null;
+          this.listProdIdentity = null;
+        },
+        err=>{
+          this.errorMessageProd = err.error.message;
+          this.prodIdentity = null;
+          this.listProdIdentity = null;
+        }
+      );
+    } else {
+      //si el campo para buscar tiene solo numeros se busca por Id
+      this.producto_producto = new Producto_Producto(_buscar.buscar);
+      this._producto_Service.producto_Producto(this.producto_producto).subscribe(
+        res=>{
+          this.prodIdentity = res[0];
+          this.errorMessageProd = null;
+          this.listProdIdentity = null;
+        },
+        err=>{
+          this.errorMessageProd = err.error.message;
+          this.prodIdentity = null;
+          this.listProdIdentity = null;
+        }
+      );
+    }
+  }
+
+  //lista producto
+  public listProd() {
+    this._producto_Service.producto().subscribe(
+      res => {
+        let list = JSON.stringify(res);
+        this.listProdIdentity = JSON.parse(list);
+        this.prodIdentity = null;
+        this.errorMessageProd = null;
+      },
+      err => {
+        this.errorMessageProd = err.error.message;
+        this.prodIdentity = null;
+        this.listProdIdentity = null;
       }
     );
   }

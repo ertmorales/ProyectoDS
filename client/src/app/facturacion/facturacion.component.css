@@ -9,6 +9,17 @@
     font-size: 20px;
 }
 
+#selectC {
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#listProd {
+    cursor: pointer;
+    margin-left: 20px;
+    font-size: 20;
+}
+
 #listClient {
     margin-left: 20px;
     cursor: pointer;

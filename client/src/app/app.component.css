@@ -326,6 +326,7 @@ p {
 
 #demolo {
     width: 110px;
+    cursor: pointer;
 }
 
 .author p {

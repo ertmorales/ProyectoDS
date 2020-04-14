@@ -31,7 +31,7 @@ export class Producto_Service {
         let params = JSON.stringify(Descripcion);
         let headers = new HttpHeaders({ "Content-Type": "application/json" });
         
-        return this._http.post(this.url + "cuenta_correntista_Id", params, {headers: headers});
+        return this._http.post(this.url + "producto_Descripcion", params, {headers: headers});
     }
 
 }
