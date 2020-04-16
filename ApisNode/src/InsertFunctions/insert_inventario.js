@@ -24,9 +24,9 @@ async function rowValues(name, callback) {
 
                     datos.forEach(async row => {
 
-                        await pool.query("select Id from pos.inventario where Id = ?", [row.Id],
+                        await pool.query("Select Id from pos.inventario " +
+                            "where Bodega = ? and Producto = ? and Unidad_Medida = ? and Cantidad = ?", [row.Bodega, row.Producto, row.Unidad_Medida, row.Cantidad],
                             function(err, result) {
-
                                 //Proceso en consola
                                 console.group("Procesando...")
                                 console.log("Tabla inventario:")
