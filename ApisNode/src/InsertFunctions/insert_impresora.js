@@ -32,7 +32,7 @@ async function rowValues(name, callback) {
                                 console.group("Procesando...")
                                 console.log("Tabla impresora:")
                                 console.log("Transacción " + indexDatos + " de " + con);
-                                console.table(row)
+                                //console.table(row)
                                 console.groupEnd("Procesando...")
 
                                 if (err) {

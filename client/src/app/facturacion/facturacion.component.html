@@ -1,8 +1,8 @@
 <!--Pestañas-->
 <nav class="top">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Documento</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Transacción</a>
+        <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Documento</a>
+        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Transacción</a>
         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Pago</a>
     </div>
 </nav>
@@ -10,7 +10,7 @@
 <!--Contenido pestañas-->
 <div class="tab-content top" id="nav-tabContent">
     <!--Pestaña Documento-->
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
         <!--Serie-->
         <div class="container">
             <div class="row">
@@ -155,27 +155,33 @@
     </div>
 
     <!--Pestaña Transaccion -->
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="tab-pane fade  show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
         <div class="container">
-            <div class="row">
-                <div class="col">
+            <div class="row align-items-end">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 top">
                     <div>
-                        <label>Cantidad:</label>
+                        <label class="label12">Cantidad:</label>
                     </div>
-                    <input type="number" class="input100" value="1">
+                    <input type="number" class="input1000" value="1">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 top">
+                    <form #productoForm="ngForm">
+                        <div>
+                            <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required autofocus>
+                            <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="col top">
+                    <div><label class="label12">Monto Unidad</label></div>
+                    <input type="text" value="0.00" class="input1000">
+                </div>
+                <div class="col top">
+                    <div><label class="label12">Monto</label></div>
+                    <input type="text" value="0.00" class="input1000">
                 </div>
             </div>
         </div>
-
-        <div class="top">
-            <form #productoForm="ngForm">
-                <div class="form-group">
-                    <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required>
-                    <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
-                </div>
-            </form>
-        </div>
-
         <div id="error" *ngIf="errorMessageProd" class="text-center">
             <div class="alert text-danger" role="alert">
                 {{errorMessageProd}}

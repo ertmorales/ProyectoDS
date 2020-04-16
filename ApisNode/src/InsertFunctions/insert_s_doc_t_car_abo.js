@@ -31,7 +31,7 @@ async function rowValues(name, callback) {
                                 console.group("Procesando...")
                                 console.log("Tabla s_doc_t_car_abo:")
                                 console.log("Transacción " + indexDatos + " de " + con);
-                                console.table(row)
+                                //console.table(row)
                                 console.groupEnd("Procesando...")
 
                                 if (err) {

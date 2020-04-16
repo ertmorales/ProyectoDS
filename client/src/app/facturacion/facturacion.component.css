@@ -72,6 +72,17 @@ textarea {
     border: solid 1px #0d2c44 !important;
 }
 
+.input1000 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px #0d2c44 !important;
+    width: 50px;
+}
+
 .input100 {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
@@ -142,5 +153,14 @@ div div form div label input {
     }
     textarea {
         width: 100%;
+    }
+    .valor100 {
+        width: 100%;
+    }
+    .label12 {
+        margin-left: 25px;
+    }
+    .top {
+        padding-top: 25px;
     }
 }
