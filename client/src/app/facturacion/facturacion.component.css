@@ -3,15 +3,34 @@
     margin-top: 20px;
 }
 
+.largeOpt {
+    width: 175px;
+    margin-left: 25px;
+    outline: none;
+    border: solid 1px #0d2c44 !important;
+    background: transparent;
+    color: #0F111C;
+    border-radius: 25px;
+}
+
+.menu1 {
+    margin-right: 10px;
+}
+
+.menu10 {
+    margin-left: 15px;
+}
+
 #searchClient {
     cursor: pointer;
     margin-left: 10px;
-    font-size: 20px;
+    font-size: 17px;
 }
 
-#selectC {
+#edit {
     cursor: pointer;
-    font-size: 15px;
+    font-size: 20px;
+    margin-left: 15px;
 }
 
 #listProd {
@@ -38,4 +57,90 @@ input {
     margin-right: 5px;
     margin-left: 25px;
     font-size: 15px;
+}
+
+.top {
+    padding-top: 15px;
+}
+
+textarea {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: solid 1px #0d2c44 !important;
+}
+
+.input100 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px #0d2c44 !important;
+}
+
+input:focus::-moz-placeholder {
+    color: transparent;
+}
+
+input:focus:-ms-input-placeholder {
+    color: transparent;
+}
+
+input::-webkit-input-placeholder {
+    color: #1e223a;
+}
+
+input:-moz-placeholder {
+    color: #1e223a;
+}
+
+input::-moz-placeholder {
+    color: #1e223a;
+}
+
+input:-ms-input-placeholder {
+    color: #1e223a;
+}
+
+::placeholder {
+    color: #1e223a;
+}
+
+::-moz-placeholder {
+    color: #1e223a;
+}
+
+nav div a:hover {
+    border: solid 1px #0d2c44 !important;
+}
+
+nav div a {
+    color: #252941;
+}
+
+nav div a.active {
+    background: transparent;
+    border: solid 1px #0d2c44 !important;
+    color: #0F111C;
+}
+
+nav div {
+    border-bottom: solid 1px #0d2c44 !important;
+}
+
+div div form div label input {
+    background: transparent;
+}
+
+@media (max-width: 768px) {
+    .largeOpt {
+        width: 80%;
+    }
+    textarea {
+        width: 100%;
+    }
 }

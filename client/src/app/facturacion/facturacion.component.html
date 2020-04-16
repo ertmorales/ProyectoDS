@@ -1,85 +1,97 @@
-<br>
 <!--Pestañas-->
-<nav>
+<nav class="top">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Documento</a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Transacción</a>
         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Pago</a>
     </div>
 </nav>
+
 <!--Contenido pestañas-->
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content top" id="nav-tabContent">
     <!--Pestaña Documento-->
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <br>
-        <form #clinteForm="ngForm">
-            <label>Filtrar por: </label>
-            <div class="form-group">
-                <label class="radio-inline"><input type="radio" name="filtro" value="Nombre" checked>Nombre</label>
-                <label class="radio-inline"><input type="radio" name="filtro" value="Id">Id. Cuenta</label>
-                <label class="radio-inline"><input type="radio" name="filtro" value="NIT">NIT</label>
-                <i class="fas fa-list-ol" id="listClient" (click)="listClient()"></i>
-            </div>
-            <div class="form-group">
-                <input type="text" #cliente="ngModel" name="cliente" [(ngModel)]="buscar_cuenta_correntista.buscar" class="input100" placeholder="Cliente" required>
-                <i class="fas fa-search" id="searchClient" (click)="Search()"></i>
-            </div>
-        </form>
-
-        <div id="error" *ngIf="errorMessage" class="text-center">
-            <div class="alert text-danger" role="alert">
-                {{errorMessage}}
+        <!--Serie-->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <label class="menu1" for="optSerie">Serie:</label>
+                    </div>
+                    <select class="largeOpt" id="optSerie">
+                        <!--Series-->
+                    </select>
+                </div>
+                <div class="col">
+                    <div>
+                        <label class="menu2" for="optVendedor">Vendedor:</label>
+                    </div>
+                    <select class="largeOpt" id="optVendedor">
+                        <!--Vendedores-->
+                    </select>
+                </div>
             </div>
         </div>
 
-        <div *ngIf="clientIdentity">
+        <div class="container top" *ngIf="!clientIdentity">
+            <div class="row">
+                <form #clinteForm="ngForm">
+                    <div class="menu10">
+                        <label>Filtrar por: </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="radio-inline"><input type="radio" name="filtro" value="Nombre" checked>Nombre</label>
+                        <label class="radio-inline"><input type="radio" name="filtro" value="Id">Id. Cuenta</label>
+                        <label class="radio-inline"><input type="radio" name="filtro" value="NIT">NIT</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" #cliente="ngModel" name="cliente" [(ngModel)]="buscar_cuenta_correntista.buscar" class="input100" placeholder="Cliente" required autofocus>
+                        <i class="fas fa-search" id="searchClient" (click)="Search()"></i>
+                        <i class="fas fa-shopping-cart" id="searchClient" (click)="consumer()"></i>
+                        <i class="fas fa-info-circle" id="searchClient" (click)="detail()"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-            <!--Registro del cliente buscado-->
-            <div class="table-responsive" id="tableSearch">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="border-dark"></th>
-                            <th scope="col" class="border-dark">Id</th>
-                            <th scope="col" class="border-dark">Nombre</th>
-                            <th scope="col" class="border-dark">NIT</th>
-                            <th scope="col" class="border-dark">Télefono</th>
-                            <th scope="col" class="border-dark">Celular</th>
-                            <th scope="col" class="border-dark">E-mail</th>
-                            <th scope="col" class="border-dark">Dirección</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i></td>
-                            <td *ngIf="_selectC"><i class="fas fa-ban" id="selectC" (click)="selectCC()"></i></td>
-                            <td>{{this.clientIdentity.ID_Cuenta}}</td>
-                            <td>{{this.clientIdentity.Nombre}}</td>
-                            <td>{{this.clientIdentity.NIT}}</td>
-                            <td>{{this.clientIdentity.Telefono}}</td>
-                            <td>{{this.clientIdentity.Celular}}</td>
-                            <td>{{this.clientIdentity.Email}}</td>
-                            <td>{{this.clientIdentity.Direccion}}</td>
-                        </tr>
-                    </tbody>
-                    <!--Borde inferior-->
-                    <tbody class="border-dark">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="error" *ngIf="errorMessage" class="text-center">
+                        <div class="alert text-danger" role="alert">
+                            {{errorMessage}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top" *ngIf="clientIdentity">
+            <div class="row align-items-center">
+                <div class="col top">
+                    <div>
+                        <label>NIT</label>
+                    </div>
+                    <input type="text" readonly="readonly" class="input100" value="{{clientIdentity.NIT}}">
+                </div>
+                <div class="col top">
+                    <div>
+                        <label>Nombre</label>
+                    </div>
+                    <input type="text" readonly="readonly" class="input100" value="{{clientIdentity.Nombre}}">
+                </div>
+                <div class="col top">
+                    <div>
+                        <label>Dirección</label>
+                    </div>
+                    <input type="text" readonly="readonly" class="input100" value="{{clientIdentity.Direccion}}">
+                    <i class="fas fa-ban" id="searchClient" (click)="edit()"></i>
+                    <i class="fas fa-info-circle" id="searchClient" (click)="detail()"></i>
+                </div>
             </div>
         </div>
 
         <div *ngIf="listClientIdentyty">
-
             <!--Registro del cliente buscado-->
             <div class="table-responsive" id="tableSearch">
                 <table class="table">
@@ -97,7 +109,8 @@
                     </thead>
                     <tbody *ngFor="let listClientIdentity of listClientIdentyty" class="border-dark">
                         <tr>
-                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i></td>
+                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i>
+                            </td>
                             <td *ngIf="_selectC"><i class="fas fa-ban" id="selectC" (click)="selectCC()"></i></td>
                             <td>{{this.listClientIdentity.ID_Cuenta}}</td>
                             <td>{{this.listClientIdentity.Nombre}}</td>
@@ -123,17 +136,45 @@
                 </table>
             </div>
         </div>
+
+        <div class="container top" *ngIf="infoDetail">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1 top">
+                    <textarea placeholder="Lugar de Entrega"></textarea>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1 top">
+                    <textarea placeholder="Tiempo de Entrega"></textarea>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1 top">
+                    <textarea placeholder="Con Antencion A:"></textarea>
+                </div>
+
+            </div>
+        </div>
+
     </div>
+
     <!--Pestaña Transaccion -->
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <br>
-        <form #productoForm="ngForm">
-            <div class="form-group">
-                <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required>
-                <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
-                <i class="fas fa-list-ol" id="listProd" (click)="listProd()"></i>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <label>Cantidad:</label>
+                    </div>
+                    <input type="number" class="input100" value="1">
+                </div>
             </div>
-        </form>
+        </div>
+
+        <div class="top">
+            <form #productoForm="ngForm">
+                <div class="form-group">
+                    <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required>
+                    <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
+                </div>
+            </form>
+        </div>
 
         <div id="error" *ngIf="errorMessageProd" class="text-center">
             <div class="alert text-danger" role="alert">
@@ -155,7 +196,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i></td>
+                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i>
+                            </td>
                             <td *ngIf="_selectC"><i class="fas fa-ban" id="selectC" (click)="selectCC()"></i></td>
                             <td>{{this.prodIdentity.Producto}}</td>
                             <td>{{this.prodIdentity.Descripcion}}</td>
@@ -188,7 +230,8 @@
                     </thead>
                     <tbody *ngFor="let _listProdIdentity of listProdIdentity" class="border-dark">
                         <tr>
-                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i></td>
+                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i>
+                            </td>
                             <td *ngIf="_selectC"><i class="fas fa-ban" id="selectC" (click)="selectCC()"></i></td>
                             <td>{{this._listProdIdentity.Producto}}</td>
                             <td>{{this._listProdIdentity.Descripcion}}</td>

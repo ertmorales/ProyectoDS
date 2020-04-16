@@ -16,6 +16,7 @@ import { Prod03Component } from './prod03/prod03.component';
 import { LoadPageComponent } from './load-page/load-page.component';
 import { LoadTaskComponent } from './load-task/load-task.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 
 const appRoutes: Routes = [
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
     Prod03Component,
     LoadPageComponent,
     LoadTaskComponent,
-    FacturacionComponent
+    FacturacionComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,

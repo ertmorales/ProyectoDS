@@ -129,7 +129,7 @@
                 </ul>
             </div>
             <div class="author">
-                <img src="assets/img/logo.png" class="center" id="demolo">
+                <img src="assets/img/logo.png" class="center" id="demolo" (click)="infoUser()">
                 <p>Powered By: Dmosoft, S.A.</p>
             </div>
         </nav>
@@ -167,6 +167,9 @@
             </div>
             <div *ngIf="visibleFact">
                 <app-facturacion></app-facturacion>
+            </div>
+            <div *ngIf="visibleUserInfo">
+                <app-user-info></app-user-info>
             </div>
         </div>
     </div>

@@ -41,6 +41,8 @@ export class FacturacionComponent implements OnInit {
   public errorMessage;
   public listClientIdentyty;
   public _selectC = false;
+  public activeListClient = false;
+  public infoDetail = false;
 
   public buscar_producto: Buscar_producto;
   public producto_producto: Producto_Producto;
@@ -49,7 +51,8 @@ export class FacturacionComponent implements OnInit {
   public errorMessageProd;
   public prodIdentity;
   public listProdIdentity;
-  
+  public activeListProd;
+
   constructor(
     private _cuenta_correntista_Service: Cuenta_Correntista_Service,
     private _producto_Service: Producto_Service
@@ -67,125 +70,176 @@ export class FacturacionComponent implements OnInit {
     let buscar;
     let _buscar;
 
-    //Captura que filtro se usará para buscar la cuenta
-    switch ($("input:radio[name=filtro]:checked").val()) {
-      case "Nombre":
+    buscar = JSON.stringify(this.buscar_cuenta_correntista);
+    _buscar = JSON.parse(buscar);
 
-        buscar = JSON.stringify(this.buscar_cuenta_correntista);
-        _buscar = JSON.parse(buscar);
+    //Si el campo para buscar está vacio miuestra todos los clientes
+    if (!_buscar.buscar) {
+      this.listClient();
+    } else {
+      //Captura que filtro se usará para buscar la cuenta
+      switch ($("input:radio[name=filtro]:checked").val()) {
+        case "Nombre":
 
-        this.cuenta_correntista_nombre = new Cuenta_correntista_nombre(_buscar.buscar);
+          buscar = JSON.stringify(this.buscar_cuenta_correntista);
+          _buscar = JSON.parse(buscar);
 
-        this._cuenta_correntista_Service.cuenta_correntista_nombre(this.cuenta_correntista_nombre).subscribe(
-          res => {
-            this.clientIdentity = res[0];
-            this.errorMessage = null;
-            this.listClientIdentyty = null;
-          },
-          err => {
-            this.errorMessage = err.error.message;
-            this.clientIdentity = null;
-            this.listClientIdentyty = null;
-          }
-        );
-        break;
-      case "Id":
-        buscar = JSON.stringify(this.buscar_cuenta_correntista);
-        _buscar = JSON.parse(buscar);
-        this.cuenta_correntista_Id_Cuenta = new Cuenta_correntista_Id(_buscar.buscar);
+          this.cuenta_correntista_nombre = new Cuenta_correntista_nombre(_buscar.buscar);
 
-        this._cuenta_correntista_Service.cuenta_correntista_Id(this.cuenta_correntista_Id_Cuenta).subscribe(
-          res => {
-            this.clientIdentity = res[0];
-            this.errorMessage = null;
-            this.listClientIdentyty = null;
-          },
-          err => {
-            this.errorMessage = err.error.message;
-            this.clientIdentity = null;
-            this.listClientIdentyty = null;
-          }
-        );
-        break;
-      case "NIT":
-        buscar = JSON.stringify(this.buscar_cuenta_correntista);
-        _buscar = JSON.parse(buscar);
-        this.cuenta_correntista_NIT = new Cuenta_correntista_NIT(_buscar.buscar);
+          this._cuenta_correntista_Service.cuenta_correntista_nombre(this.cuenta_correntista_nombre).subscribe(
+            res => {
+              this.clientIdentity = res[0];
+              this.errorMessage = null;
+              this.listClientIdentyty = null;
+            },
+            err => {
+              this.errorMessage = err.error.message;
+              this.clientIdentity = null;
+              this.listClientIdentyty = null;
+            }
+          );
+          break;
+        case "Id":
+          buscar = JSON.stringify(this.buscar_cuenta_correntista);
+          _buscar = JSON.parse(buscar);
+          this.cuenta_correntista_Id_Cuenta = new Cuenta_correntista_Id(_buscar.buscar);
 
-        this._cuenta_correntista_Service.cuenta_correntista_NIT(this.cuenta_correntista_NIT).subscribe(
-          res => {
-            this.clientIdentity = res[0];
-            this.errorMessage = null;
-            this.listClientIdentyty = null;
-          },
-          err => {
-            this.errorMessage = err.error.message;
-            this.clientIdentity = null;
-            this.listClientIdentyty = null;
-          }
-        );
+          this._cuenta_correntista_Service.cuenta_correntista_Id(this.cuenta_correntista_Id_Cuenta).subscribe(
+            res => {
+              this.clientIdentity = res[0];
+              this.errorMessage = null;
+              this.listClientIdentyty = null;
+            },
+            err => {
+              this.errorMessage = err.error.message;
+              this.clientIdentity = null;
+              this.listClientIdentyty = null;
+            }
+          );
+          break;
+        case "NIT":
+          buscar = JSON.stringify(this.buscar_cuenta_correntista);
+          _buscar = JSON.parse(buscar);
+          this.cuenta_correntista_NIT = new Cuenta_correntista_NIT(_buscar.buscar);
+
+          this._cuenta_correntista_Service.cuenta_correntista_NIT(this.cuenta_correntista_NIT).subscribe(
+            res => {
+              this.clientIdentity = res[0];
+              this.errorMessage = null;
+              this.listClientIdentyty = null;
+            },
+            err => {
+              this.errorMessage = err.error.message;
+              this.clientIdentity = null;
+              this.listClientIdentyty = null;
+            }
+          );
+      }
     }
   }
 
   //lista de cuentas
   public listClient() {
-    this._cuenta_correntista_Service.cuenta_correntista().subscribe(
-      res => {
-        let list = JSON.stringify(res);
-        this.listClientIdentyty = JSON.parse(list);
-        this.clientIdentity = null;
-        this.errorMessage = null;
-      },
-      err => {
-        this.errorMessage = err.error.message;
-        this.clientIdentity = null;
-        this.listClientIdentyty = null;
-      }
-    );
+
+    if (this.activeListClient) {
+      this.activeListClient = false;
+      this.listClientIdentyty = null;
+    } else {
+      this.activeListClient = true;
+
+      this._cuenta_correntista_Service.cuenta_correntista().subscribe(
+        res => {
+          let list = JSON.stringify(res);
+          this.listClientIdentyty = JSON.parse(list);
+          this.clientIdentity = null;
+          this.errorMessage = null;
+        },
+        err => {
+          this.errorMessage = err.error.message;
+          this.clientIdentity = null;
+          this.listClientIdentyty = null;
+        }
+      );
+    }
   }
 
-  //seleccionar una cuenta
-  public selectC() {
-    this._selectC = true;
+  //Editar cuenta, seleciionar o buscar otra
+  public edit() {
+    this.clientIdentity = null;
+    this.buscar_cuenta_correntista.buscar = null;
   }
 
-  //Des-seleccionar una cuenta
-  public selectCC() {
-    this._selectC = false;
+  //Consumidor final
+  public consumer() {
+    var consumerFinally = {
+      NIT: "C/F",
+      Nombre: "CONSUMIDOR FINAL",
+      Direccion: "CIUDAD"
+    }
+    this.clientIdentity = consumerFinally;
+    this.listClientIdentyty = null;
+    this.errorMessage = null;
   }
 
   //Buscar producto
   public SearchProd() {
-    
+
     let buscar = JSON.stringify(this.buscar_producto);
     let _buscar = JSON.parse(buscar)
 
-    //validar si se busca por Id o por descripcion
-    if (isNaN(_buscar.buscar)) {
-      //Buscar por Descripcion
-      this.producto_Descripcion = new Producto_Descripcion(_buscar.buscar)
-      this._producto_Service.producto_Descripcion(this.producto_Descripcion).subscribe(
-        res=>{
-          this.prodIdentity = res[0];
-          this.errorMessageProd = null;
-          this.listProdIdentity = null;
-        },
-        err=>{
-          this.errorMessageProd = err.error.message;
-          this.prodIdentity = null;
-          this.listProdIdentity = null;
-        }
-      );
+    if (!_buscar.buscar) {
+      this.listProd();
     } else {
-      //si el campo para buscar tiene solo numeros se busca por Id
-      this.producto_producto = new Producto_Producto(_buscar.buscar);
-      this._producto_Service.producto_Producto(this.producto_producto).subscribe(
-        res=>{
-          this.prodIdentity = res[0];
+      //validar si se busca por Id o por descripcion
+      if (isNaN(_buscar.buscar)) {
+        //Buscar por Descripcion
+        this.producto_Descripcion = new Producto_Descripcion(_buscar.buscar)
+        this._producto_Service.producto_Descripcion(this.producto_Descripcion).subscribe(
+          res => {
+            this.prodIdentity = res[0];
+            this.errorMessageProd = null;
+            this.listProdIdentity = null;
+          },
+          err => {
+            this.errorMessageProd = err.error.message;
+            this.prodIdentity = null;
+            this.listProdIdentity = null;
+          }
+        );
+      } else {
+        //si el campo para buscar tiene solo numeros se busca por Id
+        this.producto_producto = new Producto_Producto(_buscar.buscar);
+        this._producto_Service.producto_Producto(this.producto_producto).subscribe(
+          res => {
+            this.prodIdentity = res[0];
+            this.errorMessageProd = null;
+            this.listProdIdentity = null;
+          },
+          err => {
+            this.errorMessageProd = err.error.message;
+            this.prodIdentity = null;
+            this.listProdIdentity = null;
+          }
+        );
+      }
+    }
+  }
+
+  //lista producto
+  public listProd() {
+    if (this.activeListProd) {
+      this.activeListProd = false;
+      this.listProdIdentity = null;
+    } else {
+      this.activeListProd = true;
+      this._producto_Service.producto().subscribe(
+        res => {
+          let list = JSON.stringify(res);
+          this.listProdIdentity = JSON.parse(list);
+          this.prodIdentity = null;
           this.errorMessageProd = null;
-          this.listProdIdentity = null;
         },
-        err=>{
+        err => {
           this.errorMessageProd = err.error.message;
           this.prodIdentity = null;
           this.listProdIdentity = null;
@@ -194,21 +248,12 @@ export class FacturacionComponent implements OnInit {
     }
   }
 
-  //lista producto
-  public listProd() {
-    this._producto_Service.producto().subscribe(
-      res => {
-        let list = JSON.stringify(res);
-        this.listProdIdentity = JSON.parse(list);
-        this.prodIdentity = null;
-        this.errorMessageProd = null;
-      },
-      err => {
-        this.errorMessageProd = err.error.message;
-        this.prodIdentity = null;
-        this.listProdIdentity = null;
-      }
-    );
+  //mostrar mas detalles: Lugar de entrega/Tiempo de entrega/Con atencion a:
+  public detail(){
+    if (!this.infoDetail){
+      this.infoDetail = true;
+    }else{
+      this.infoDetail = false;
+    }
   }
-
 }

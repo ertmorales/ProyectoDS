@@ -218,6 +218,48 @@ export class AppComponent implements OnInit {
     }
   }
 
+  //informacion de usuario en imagen logo demososft #demolo
+
+
+  
+  public infoUser() {
+    localStorage.removeItem("visibleSer01");
+    localStorage.removeItem("visibleSer02");
+    localStorage.removeItem("visibleSer03");
+    localStorage.removeItem("visibleProd01");
+    localStorage.removeItem("visibleProd02");
+    localStorage.removeItem("visibleProd03");
+    localStorage.removeItem("visibleContact");
+    localStorage.removeItem("visibleInit");
+    localStorage.removeItem("visibleUserInfo");
+    localStorage.removeItem("visibleFact");
+
+    localStorage.setItem("visibleSer01", "false");
+    localStorage.setItem("visibleSer02", "false");
+    localStorage.setItem("visibleSer03", "false");
+    localStorage.setItem("visibleProd01", "false");
+    localStorage.setItem("visibleProd02", "false");
+    localStorage.setItem("visibleProd03", "false");
+    localStorage.setItem("visibleContact", "false");
+    localStorage.setItem("visibleInit", "false");
+    localStorage.setItem("visibleUserInfo", "true")
+    localStorage.setItem("visibleFact", "false");
+
+
+    this.visibleSer01 = false;
+    this.visibleSer02 = false;
+    this.visibleSer03 = false
+    this.visibleProd01 = false;
+    this.visibleProd02 = false;
+    this.visibleProd03 = false;
+    this.visibleContact = false;
+    this.visibleInit = false;
+    this.visibleUserInfo = true;
+    this.visibleFact = false;
+
+    this.toggleTitle();
+  }
+
   //ver pantalla inicio
   public viewInit() {
     localStorage.removeItem("visibleSer01");
@@ -577,44 +619,6 @@ export class AppComponent implements OnInit {
 
     this.toggleTitle();
 
-  }
-
-  public viewUserInfo() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "true")
-    localStorage.setItem("visibleFact", "false");
-
-
-    this.visibleSer01 = false;
-    this.visibleSer02 = false;
-    this.visibleSer03 = false
-    this.visibleProd01 = false;
-    this.visibleProd02 = false;
-    this.visibleProd03 = false;
-    this.visibleContact = false;
-    this.visibleInit = false;
-    this.visibleUserInfo = true;
-    this.visibleFact = false;
-
-    this.toggleTitle();
   }
 
   //cerrar sesion
