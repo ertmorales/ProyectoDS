@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
   public visibleContact: boolean;
   public visibleUserInfo: boolean;
   public visibleFact: boolean;
+  public visibleOrdenServicio: boolean;
   public progressLogin: boolean = false;
   public loader: boolean = false;
 
@@ -75,6 +76,7 @@ export class AppComponent implements OnInit {
     this.visibleContact = JSON.parse(localStorage.getItem("visibleContact"));
     this.visibleUserInfo = JSON.parse(localStorage.getItem("visibleUserInfo"));
     this.visibleFact = JSON.parse(localStorage.getItem("visibleFact"));
+    this.visibleOrdenServicio = JSON.parse(localStorage.getItem("visibleOrdenServicio"));
   }
 
   //mostrar y ocultar el menu lateral
@@ -219,9 +221,6 @@ export class AppComponent implements OnInit {
   }
 
   //informacion de usuario en imagen logo demososft #demolo
-
-
-  
   public infoUser() {
     localStorage.removeItem("visibleSer01");
     localStorage.removeItem("visibleSer02");
@@ -233,6 +232,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -244,6 +244,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "true")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
 
     this.visibleSer01 = false;
@@ -256,6 +257,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = true;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
     this.toggleTitle();
   }
@@ -272,6 +274,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -283,6 +286,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "true");
     localStorage.setItem("visibleUserInfo", "false");
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -294,6 +298,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = true;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
 
     this.toggleTitle();
@@ -312,6 +317,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -323,6 +329,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "true" )
+    localStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -334,10 +341,53 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = true;
+    this.visibleOrdenServicio = false;
 
 
     this.toggleTitle();
   }
+
+  //Orden de srvicio
+  public OrdenDeServicio(){
+    localStorage.removeItem("visibleSer01");
+    localStorage.removeItem("visibleSer02");
+    localStorage.removeItem("visibleSer03");
+    localStorage.removeItem("visibleProd01");
+    localStorage.removeItem("visibleProd02");
+    localStorage.removeItem("visibleProd03");
+    localStorage.removeItem("visibleContact");
+    localStorage.removeItem("visibleInit");
+    localStorage.removeItem("visibleUserInfo");
+    localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
+
+    localStorage.setItem("visibleSer01", "false");
+    localStorage.setItem("visibleSer02", "false");
+    localStorage.setItem("visibleSer03", "false");
+    localStorage.setItem("visibleProd01", "false");
+    localStorage.setItem("visibleProd02", "false");
+    localStorage.setItem("visibleProd03", "false");
+    localStorage.setItem("visibleContact", "false");
+    localStorage.setItem("visibleInit", "false");
+    localStorage.setItem("visibleUserInfo", "false")
+    localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "true");
+
+    this.visibleSer01 = false;
+    this.visibleSer02 = false;
+    this.visibleSer03 = false
+    this.visibleProd01 = false;
+    this.visibleProd02 = false;
+    this.visibleProd03 = false;
+    this.visibleContact = false;
+    this.visibleInit = false;
+    this.visibleUserInfo = false;
+    this.visibleFact = false;
+    this.visibleOrdenServicio = true;
+
+    this.toggleTitle();
+  }
+
 
   //ver pantalla ser 01
   public viewSer01() {
@@ -351,6 +401,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "true");
     localStorage.setItem("visibleSer02", "false");
@@ -362,6 +413,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
 
     this.visibleSer01 = true;
@@ -374,6 +426,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
 
     this.toggleTitle();
@@ -392,6 +445,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "true");
@@ -403,6 +457,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
 
     this.visibleSer01 = false;
@@ -415,6 +470,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
     this.toggleTitle();
 
@@ -432,6 +488,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -443,6 +500,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
 
     this.visibleSer01 = false;
@@ -455,6 +513,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
 
     this.toggleTitle();
@@ -473,6 +532,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -484,6 +544,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
 
     this.visibleSer01 = false;
@@ -496,6 +557,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
     this.toggleTitle();
   }
@@ -512,6 +574,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -523,6 +586,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
 
     this.visibleSer01 = false;
@@ -535,6 +599,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
 
     this.toggleTitle();
@@ -553,6 +618,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -564,6 +630,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
 
     this.visibleSer01 = false;
@@ -576,6 +643,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
     this.toggleTitle();
 
@@ -594,6 +662,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem("visibleInit");
     localStorage.removeItem("visibleUserInfo");
     localStorage.removeItem("visibleFact");
+    localStorage.removeItem("visibleOrdenServicio");
 
     localStorage.setItem("visibleSer01", "false");
     localStorage.setItem("visibleSer02", "false");
@@ -605,6 +674,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("visibleInit", "false");
     localStorage.setItem("visibleUserInfo", "false")
     localStorage.setItem("visibleFact", "false");
+    localStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -616,6 +686,7 @@ export class AppComponent implements OnInit {
     this.visibleInit = false;
     this.visibleUserInfo = false;
     this.visibleFact = false;
+    this.visibleOrdenServicio = false;
 
     this.toggleTitle();
 
@@ -636,6 +707,7 @@ export class AppComponent implements OnInit {
       localStorage.removeItem("visibleInit");
       localStorage.removeItem("visibleFact");
       localStorage.removeItem("visibleUserInfo");
+      localStorage.removeItem("visibleOrdenServicio");
       
       localStorage.clear();
 
@@ -651,6 +723,7 @@ export class AppComponent implements OnInit {
       this.identity = null;
       this.token = null;
       this.visibleFact = null;
+      this.visibleOrdenServicio = null;
     } else {
       return;
     }

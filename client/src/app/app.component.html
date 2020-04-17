@@ -71,6 +71,10 @@
                 </li>
 
                 <li>
+                    <a (click)="OrdenDeServicio()" href="#"><i class="left fas fa-clipboard-list"></i>Orden de Servicio</a>
+                </li>
+
+                <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <i class="left fas fa-clipboard-list"></i>Servicios
                     </a>
@@ -139,39 +143,19 @@
 
             <div>
                 <i id="menubar" (click)="toggleTitle()" class="fas fa-bars"></i>
-
             </div>
 
-            <div *ngIf="visibleSer01">
-                <app-ser01></app-ser01>
-            </div>
-            <div *ngIf="visibleSer02">
-                <app-ser02></app-ser02>
-            </div>
-            <div *ngIf="visibleSer03">
-                <app-ser03></app-ser03>
-            </div>
-            <div *ngIf="visibleProd01">
-                <app-prod01></app-prod01>
-            </div>
-            <div *ngIf="visibleProd02">
-                <app-prod02></app-prod02>
-            </div>
-            <div *ngIf="visibleProd03">
-                <app-prod03></app-prod03>
-            </div>
-            <div *ngIf="visibleContact">
-                <app-contact></app-contact>
-            </div>
-            <div *ngIf="loader">
-                <app-load-task></app-load-task>
-            </div>
-            <div *ngIf="visibleFact">
-                <app-facturacion></app-facturacion>
-            </div>
-            <div *ngIf="visibleUserInfo">
-                <app-user-info></app-user-info>
-            </div>
+            <app-ser01 *ngIf="visibleSer01"></app-ser01>
+            <app-ser02 *ngIf="visibleSer02"></app-ser02>
+            <app-ser03 *ngIf="visibleSer03"></app-ser03>
+            <app-prod01 *ngIf="visibleProd01"></app-prod01>
+            <app-prod02 *ngIf="visibleProd02"></app-prod02>
+            <app-prod03 *ngIf="visibleProd03"></app-prod03>
+            <app-contact *ngIf="visibleContact"></app-contact>
+            <app-load-task *ngIf="loader"></app-load-task>
+            <app-facturacion *ngIf="visibleFact"></app-facturacion>
+            <app-user-info *ngIf="visibleUserInfo"></app-user-info>
+            <app-ordenes-de-servicio *ngIf="visibleOrdenServicio"></app-ordenes-de-servicio>
         </div>
     </div>
 </div>
