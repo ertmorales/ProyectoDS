@@ -256,4 +256,16 @@ export class FacturacionComponent implements OnInit {
       this.infoDetail = false;
     }
   }
+
+  //Seleccionar producto
+  public selectProd(){
+    alert("has seleccionado este")
+  }
+
+  //no seleccionar este
+  public cancelProd(){
+    this.prodIdentity = null;
+    this.buscar_producto.buscar = null;
+  }
+
 }
