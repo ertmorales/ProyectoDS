@@ -287,7 +287,50 @@
     </div>
     <!--Pestaña pago-->
     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-        <br>
-        <p>Aqui forma de pago</p>
+
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top">
+                    <div>
+                        <label class="label12">Pago: <input type="number" class="input11000" value="0.00" readonly="readonly"></label>
+                        <i class="far fa-check-circle" id="searchClient"></i>
+                        <i class="fas fa-ban" id="searchClient"></i>
+                        <div class="quetzal top" *ngIf="moneda">
+                            <input type="button" class="tipoMoneda" value="Quetzal (Q)" (click)="quetzal()">
+                        </div>
+                        <div class="dolar top" *ngIf="!moneda">
+                            <input type="button" class="tipoMoneda2" value="Dolar ($)" (click)="dolar()">
+                            <label class="dolarLbl">TC: 0.00</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container top">
+            <div class="row align-self-end ">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                    <div id="error ">
+                        <div class="alert text-alert " role="alert ">
+                            <!--Formas de pago-->
+                            <p>(Añadir formas de pago)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 "></div>
+                <div class="col ">
+                    <div id="error ">
+                        <div class="alert text-alert " role="alert ">
+                            <div class="pago ">
+                                <Label>Pago</Label>
+                            </div>
+                            <label class="prodInfo ">Total: </label><br>
+                            <label class="prodInfo ">Saldo: </label><br>
+                            <label class="prodInfo ">Cambio: </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-1 "></div>
+            </div>
+        </div>
     </div>
-</div>

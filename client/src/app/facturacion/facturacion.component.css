@@ -67,6 +67,46 @@ input {
     height: 13px;
 }
 
+.pago {
+    align-items: flex-end;
+    padding-left: 15px;
+}
+
+.quetzal {
+    padding-left: 15px;
+}
+
+.tipoMoneda {
+    background: transparent;
+    color: #252941;
+    border: solid 1px #252941;
+    border-radius: 15px;
+    outline: none;
+    width: 125px;
+    text-align: center;
+}
+
+.tipoMoneda2 {
+    background: transparent;
+    color: #252941;
+    border: solid 1px #252941;
+    border-radius: 15px;
+    outline: none;
+    width: 100px;
+    text-align: center;
+}
+
+.dolar {
+    padding-left: none !important;
+}
+
+.dolarLbl {
+    padding: none;
+    margin: none;
+    padding-left: 10px;
+    font-size: 13px;
+}
+
 textarea {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
@@ -96,6 +136,18 @@ textarea {
     outline: none;
     border: none;
     border-bottom: solid 1px #0d2c44 !important;
+}
+
+.input11000 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px #0d2c44 !important;
+    width: 75px;
+    text-align: center;
 }
 
 input:focus::-moz-placeholder {
@@ -175,5 +227,11 @@ div div form div label input {
     }
     .input1000 {
         width: 100px;
+    }
+    .tipoMoneda {
+        width: 80%;
+    }
+    .tipoMoneda2 {
+        width: 55%;
     }
 }

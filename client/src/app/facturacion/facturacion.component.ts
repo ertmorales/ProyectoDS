@@ -52,6 +52,9 @@ export class FacturacionComponent implements OnInit {
   public prodIdentity;
   public listProdIdentity;
   public activeListProd;
+  public selectProdidentity = [];
+
+  public moneda = true;
 
   constructor(
     private _cuenta_correntista_Service: Cuenta_Correntista_Service,
@@ -259,13 +262,27 @@ export class FacturacionComponent implements OnInit {
 
   //Seleccionar producto
   public selectProd(){
-    alert("has seleccionado este")
+    this.selectProdidentity.push(this.prodIdentity);
+    this.prodIdentity = null;
+    this.buscar_producto.buscar = null;
+    console.log(this.selectProdidentity)
   }
 
   //no seleccionar este
   public cancelProd(){
     this.prodIdentity = null;
     this.buscar_producto.buscar = null;
+    
+  }
+
+  //tipo moneda quetzal
+  public quetzal(){
+    this.moneda = false;
+  }
+
+  //tipo moneda dolar
+  public dolar(){
+    this.moneda = true;
   }
 
 }
