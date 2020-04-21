@@ -1,0 +1,153 @@
+.input1000 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px #0d2c44 !important;
+    width: 50px;
+    text-align: center;
+}
+
+.input100 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px #0d2c44 !important;
+    width: 140px;
+}
+
+.input10 {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: solid 1px #252941;
+    width: 200px;
+    text-align: center;
+}
+
+.input110 {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: solid 1px #252941;
+    width: 130px;
+}
+
+textarea {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: solid 1px #0d2c44 !important;
+    height: 30px;
+}
+
+.largeOpt {
+    width: 175px;
+    margin-left: 25px;
+    outline: none;
+    border: solid 1px #0d2c44 !important;
+    background: transparent;
+    color: #0F111C;
+    border-radius: 25px;
+}
+
+#searchClient {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 17px;
+}
+
+input {
+    margin-right: 5px;
+    margin-left: 25px;
+    font-size: 15px;
+}
+
+input:focus::-moz-placeholder {
+    color: transparent;
+}
+
+input:focus:-ms-input-placeholder {
+    color: transparent;
+}
+
+input::-webkit-input-placeholder {
+    color: #1e223a;
+}
+
+input:-moz-placeholder {
+    color: #1e223a;
+}
+
+input::-moz-placeholder {
+    color: #1e223a;
+}
+
+input:-ms-input-placeholder {
+    color: #1e223a;
+}
+
+::placeholder {
+    color: #1e223a;
+}
+
+::-moz-placeholder {
+    color: #1e223a;
+}
+
+nav div a:hover {
+    border: solid 1px #0d2c44 !important;
+}
+
+nav div a {
+    color: #252941;
+}
+
+nav div a.active {
+    background: transparent;
+    border: solid 1px #0d2c44 !important;
+    color: #0F111C;
+    border-bottom: none !important;
+}
+
+nav div {
+    border-bottom: solid 1px #0d2c44 !important;
+}
+
+div div form div label input {
+    background: transparent;
+}
+
+.alert {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+#error {
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .input100 {
+        width: 70%;
+    }
+    .topNom {
+        padding-top: 20px;
+    }
+    .largeOpt {
+        width: 80%;
+    }
+    textarea {
+        height: 50px;
+        width: 90%;
+    }
+    .obsermov {
+        width: 75% !important;
+    }
+}

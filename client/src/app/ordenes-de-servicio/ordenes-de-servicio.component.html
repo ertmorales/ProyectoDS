@@ -1,1 +1,181 @@
-<p>ordenes-de-servicio works!</p>
+<!--Pestañas-->
+<nav class="top">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-document-tab" data-toggle="tab" href="#nav-document" role="tab" aria-controls="nav-document" aria-selected="true">Documento</a>
+        <a class="nav-item nav-link " id="nav-transaccion-tab" data-toggle="tab" href="#nav-transaccion" role="tab" aria-controls="nav-transaccion" aria-selected="false">Transacción</a>
+    </div>
+</nav>
+
+<!--Contenido pestañas-->
+<div class="tab-content top" id="nav-tabContent">
+    <!--Pestaña Documento-->
+    <div class="tab-pane fade show active" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
+        <div class="container top">
+            <div class="row align-items-end">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="center100">
+                        <label class="menu1" for="optSerie">Serie</label>
+                        <select class="largeOpt" id="optSerie">
+                                <!--Series-->
+                            </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 topNom">
+                    <div class="center100 blockmov">
+                        <div>
+                            <label>NIT</label>
+                        </div>
+                        <input type="text" class="input100" class="input100">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="center100 topNom blockmov">
+                        <div>
+                            <label>Nombre</label>
+                        </div>
+                        <input type="text" class="input100">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top">
+            <div class="row top borderblock">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top">
+                    <div class="center100">
+                        <div>
+                            <label>Referencia</label>
+                        </div>
+                        <input type="text" class="input100">
+                        <i class="fas fa-search" id="searchClient"></i>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top">
+                    <div class="center100">
+                        <div>
+                            <label>Cuenta</label>
+                        </div>
+                        <input type="text" class="input100">
+                        <i class="fas fa-search" id="searchClient"></i>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top">
+                    <div class="center100">
+                        <div>
+                            <label>Colaborador</label>
+                        </div>
+                        <input type="text" readonly="readonly" class="input100">
+                        <i class="fas fa-search" id="searchClient"></i>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top">
+                    <div class="center100">
+                        <div>
+                            <label>Visualizar Observacion</label>
+                        </div>
+                        <textarea></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top">
+            <div class="row top">
+                <div class="col-lg-3 col-md-3">
+                    <div class="center100">
+                        <div>
+                            <label>Fecha Inicial</label>
+                        </div>
+                        <input type="datetime-local" class="input10">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 ">
+                    <div class="center100 topNom">
+                        <div>
+                            <label>Fecha Final</label>
+                        </div>
+                        <input type="datetime-local" class="input10">
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-6"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--Pestaña Transaccion -->
+    <div class="tab-pane fade" id="nav-transaccion" role="tabpanel" aria-labelledby="nav-transaccion-tab">
+        <div class="container">
+            <div class="row align-items-end">
+                <div class="col-lg-2 col-md-2 col col">
+                    <div>
+                        <label class="label12">Cantidad:</label>
+                    </div>
+                    <input type="number" class="input1000" value="1">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top top2">
+                    <form>
+                        <div>
+                            <input type="text" name="producto" class="input100" placeholder="Producto/Servicio" required autofocus>
+                            <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col top top2">
+                    <div><label class="label12">Monto Unidad</label></div>
+                    <input type="text" value="0.00" class="input1000">
+                </div>
+                <div class="col top top2">
+                    <div><label class="label12">Monto</label></div>
+                    <input type="text" value="0.00" class="input1000">
+                </div>
+            </div>
+        </div>
+
+        <div class="container top">
+            <div class="row align-items-end">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 top top2">
+                    <div><label>Fecha</label></div>
+                    <input type="date" class="input110 obsermov">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 top top2">
+                    <textarea class="obsermov" placeholder="Observación"></textarea>
+                    <i class="far fa-check-circle" id="searchClient" (click)="confirmTrans()"></i>
+                    <i class="fas fa-ban" id="searchClient" (click)="cancelTrans()"></i>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top top2"></div>
+            </div>
+        </div>
+
+        <div class="container top" *ngIf="errorMessageProd">
+            <div id="error" class="text-center">
+                <div class="alert text-danger" role="alert">
+                    {{errorMessageProd}}
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row align-self-end">
+                <div class="col-lg-8 col-md-8"></div>
+                <div class="col">
+                    <div id="error">
+                        <div class="alert text-alert" role="alert">
+                            <div>
+                                <Label class="monto">Monto</Label>
+                            </div>
+                            <label class="prodInfo ">Sub Total: </label><br>
+                            <label class="prodInfo ">Cargo: </label><br>
+                            <label class="prodInfo ">Descuento: </label><br>
+                            <label class="prodInfo ">Total: </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-1"></div>
+            </div>
+        </div>
+    </div>
+</div>

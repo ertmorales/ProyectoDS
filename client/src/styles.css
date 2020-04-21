@@ -7,6 +7,10 @@ body {
     background: #2C6181;
 }
 
+.top {
+    padding-top: 15px;
+}
+
 .center {
     margin-left: auto;
     margin-right: auto;
