@@ -11,6 +11,7 @@ api.get("/cuenta_correntista", cuenta_correntista.cuenta_correntista);
 api.post("/cuenta_correntista_nombre", cuenta_correntista.cuenta_correntista_nombre);
 api.post("/cuenta_correntista_Id", cuenta_correntista.cuenta_correntista_Id);
 api.post("/cuenta_correntista_NIT", cuenta_correntista.cuenta_correntista_NIT);
+api.post("/nueva_cuenta_correntista", cuenta_correntista.nueva_cuenta_correntista);
 
 //exportaciona global
 module.exports = api;
