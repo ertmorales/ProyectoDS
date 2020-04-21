@@ -1,0 +1,62 @@
+.input100 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px #0d2c44 !important;
+    width: 95%;
+    padding-left: 10%;
+    border-radius: 2px;
+}
+
+input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+input:focus:-moz-placeholder {
+    color: transparent;
+}
+
+input:focus::-moz-placeholder {
+    color: transparent;
+}
+
+input:focus:-ms-input-placeholder {
+    color: transparent;
+}
+
+input::-webkit-input-placeholder {
+    color: #1e223a;
+}
+
+input:-moz-placeholder {
+    color: #1e223a;
+}
+
+input::-moz-placeholder {
+    color: #1e223a;
+}
+
+input:-ms-input-placeholder {
+    color: #1e223a;
+}
+
+::placeholder {
+    color: #1e223a;
+}
+
+::-moz-placeholder {
+    color: #1e223a;
+}
+
+.card {
+    margin-top: 15%;
+    background-color: rgba(255, 255, 255, 0.048) !important;
+    border: solid 1px #373d5fc0;
+}
+
+.alert {
+    background-color: rgba(255, 255, 255, 0.144) !important;
+}

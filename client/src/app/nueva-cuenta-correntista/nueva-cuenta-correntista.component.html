@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-body">
+
+                    <div *ngIf="errorMessage">
+                        <div class="alert text-danger" role="alert">
+                            {{errorMessage}}
+                        </div>
+                    </div>
+
+                    <form #nuevaCuentaForm="ngForm" (ngSubmit)="nuevaCuenta()">
+                        <div class="form-group">
+                            <input type="text" #CuentaCorrentista="ngModel" name="CuentaCorrentista" [(ngModel)]="cuentaNueva.Cuenta_Correntista" placeholder="Cuenta Correntista" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #IdCuenta="ngModel" name="IdCuenta" [(ngModel)]="cuentaNueva.ID_Cuenta" placeholder="Id Cuenta" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Nombre="ngModel" name="Nombre" [(ngModel)]="cuentaNueva.Nombre" placeholder="Nombre" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #NIT="ngModel" name="NIT" [(ngModel)]="cuentaNueva.NIT" placeholder="NIT" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Direccion="ngModel" name="Direccion" [(ngModel)]="cuentaNueva.Direccion" placeholder="Direccion" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Telefono="ngModel" name="Telefono" [(ngModel)]="cuentaNueva.Telefono" placeholder="Telefono" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Celular="ngModel" name="Celular" [(ngModel)]="cuentaNueva.Celular" placeholder="Celular" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Email="ngModel" name="Email" [(ngModel)]="cuentaNueva.Email" placeholder="Email" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Factura_NIT="ngModel" name="Factura_NIT" [(ngModel)]="cuentaNueva.Factura_NIT" placeholder="NIt en Factura" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Factura_Nombre="ngModel" name="Factura_Nombre" [(ngModel)]="cuentaNueva.Factura_Nombre" placeholder="Nombre en Factura" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" #Factura_Direccion="ngModel" name="Factura_Direccion" [(ngModel)]="cuentaNueva.Factura_Direccion" placeholder="Direccion en Factura" class="input100" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Crear Cuenta" class="btn btn-dark btn-block">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

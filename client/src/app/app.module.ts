@@ -18,6 +18,7 @@ import { LoadTaskComponent } from './load-task/load-task.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { OrdenesDeServicioComponent } from './ordenes-de-servicio/ordenes-de-servicio.component';
+import { NuevaCuentaCorrentistaComponent } from './nueva-cuenta-correntista/nueva-cuenta-correntista.component';
 
 
 const appRoutes: Routes = [
@@ -37,7 +38,8 @@ const appRoutes: Routes = [
     LoadTaskComponent,
     FacturacionComponent,
     UserInfoComponent,
-    OrdenesDeServicioComponent
+    OrdenesDeServicioComponent,
+    NuevaCuentaCorrentistaComponent
   ],
   imports: [
     BrowserModule,

@@ -144,8 +144,10 @@
             <div>
                 <i id="menubar" (click)="toggleTitle()" class="fas fa-bars"></i>
             </div>
-
+            <app-nueva-cuenta-correntista *ngIf="visibleSer01"></app-nueva-cuenta-correntista>
+            <!--
             <app-ser01 *ngIf="visibleSer01"></app-ser01>
+            -->
             <app-ser02 *ngIf="visibleSer02"></app-ser02>
             <app-ser03 *ngIf="visibleSer03"></app-ser03>
             <app-prod01 *ngIf="visibleProd01"></app-prod01>
