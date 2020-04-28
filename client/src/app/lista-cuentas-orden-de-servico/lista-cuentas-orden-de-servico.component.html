@@ -1,0 +1,77 @@
+<div class="container top">
+    <div class="row">
+        <form #clinteForm="ngForm">
+            <div class="menu10">
+                <label>Filtrar por: </label>
+            </div>
+            <div class="form-group">
+                <label class="radio-inline"><input type="radio" name="filtro" value="Nombre" checked>Nombre</label>
+                <label class="radio-inline"><input type="radio" name="filtro" value="Id">Id. Cuenta</label>
+                <label class="radio-inline"><input type="radio" name="filtro" value="NIT">NIT</label>
+            </div>
+            <div class="form-group">
+                <input type="text" #cliente="ngModel" name="cliente" [(ngModel)]="buscar_cuenta_correntista.buscar" class="input100" placeholder="Cliente" required autofocus>
+                <i class="fas fa-search" id="searchClient" (click)="Search()"></i>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="error" *ngIf="errorMessage" class="text-center">
+                <div class="alert text-danger" role="alert">
+                    {{errorMessage}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <!--Registro del cliente buscado-->
+    <div class="table-responsive" id="tableSearch">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="border-dark"></th>
+                    <th scope="col" class="border-dark">Id</th>
+                    <th scope="col" class="border-dark">Nombre</th>
+                    <th scope="col" class="border-dark">NIT</th>
+                    <th scope="col" class="border-dark">Télefono</th>
+                    <th scope="col" class="border-dark">Celular</th>
+                    <th scope="col" class="border-dark">E-mail</th>
+                    <th scope="col" class="border-dark">Dirección</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let listClientIdentity of listClientIdentyty" class="border-dark">
+                <tr>
+                    <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i>
+                    </td>
+                    <td *ngIf="_selectC"><i class="fas fa-ban" id="selectC" (click)="selectCC()"></i></td>
+                    <td>{{this.listClientIdentity.ID_Cuenta}}</td>
+                    <td>{{this.listClientIdentity.Nombre}}</td>
+                    <td>{{this.listClientIdentity.NIT}}</td>
+                    <td>{{this.listClientIdentity.Telefono}}</td>
+                    <td>{{this.listClientIdentity.Celular}}</td>
+                    <td>{{this.listClientIdentity.Email}}</td>
+                    <td>{{this.listClientIdentity.Direccion}}</td>
+                </tr>
+            </tbody>
+            <!--Borde inferior-->
+            <tbody class="border-dark">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

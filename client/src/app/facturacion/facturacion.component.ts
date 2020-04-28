@@ -60,8 +60,8 @@ export class FacturacionComponent implements OnInit {
     private _cuenta_correntista_Service: Cuenta_Correntista_Service,
     private _producto_Service: Producto_Service
   ) {
-    this.buscar_cuenta_correntista = new Buscar_cuenta_correntista("");
-    this.buscar_producto = new Buscar_producto("");
+    this.buscar_cuenta_correntista = new Buscar_cuenta_correntista(null);
+    this.buscar_producto = new Buscar_producto(null);
   }
 
   ngOnInit() {
@@ -70,24 +70,14 @@ export class FacturacionComponent implements OnInit {
   //Buscar cliente (cuenta correntista)
   public Search() {
 
-    let buscar;
-    let _buscar;
-
-    buscar = JSON.stringify(this.buscar_cuenta_correntista);
-    _buscar = JSON.parse(buscar);
-
     //Si el campo para buscar está vacio miuestra todos los clientes
-    if (!_buscar.buscar) {
+    if (!this.buscar_cuenta_correntista.buscar) {
       this.listClient();
     } else {
       //Captura que filtro se usará para buscar la cuenta
       switch ($("input:radio[name=filtro]:checked").val()) {
         case "Nombre":
-
-          buscar = JSON.stringify(this.buscar_cuenta_correntista);
-          _buscar = JSON.parse(buscar);
-
-          this.cuenta_correntista_nombre = new Cuenta_correntista_nombre(_buscar.buscar);
+          this.cuenta_correntista_nombre = new Cuenta_correntista_nombre(this.buscar_cuenta_correntista.buscar);
 
           this._cuenta_correntista_Service.cuenta_correntista_nombre(this.cuenta_correntista_nombre).subscribe(
             res => {
@@ -103,9 +93,7 @@ export class FacturacionComponent implements OnInit {
           );
           break;
         case "Id":
-          buscar = JSON.stringify(this.buscar_cuenta_correntista);
-          _buscar = JSON.parse(buscar);
-          this.cuenta_correntista_Id_Cuenta = new Cuenta_correntista_Id(_buscar.buscar);
+          this.cuenta_correntista_Id_Cuenta = new Cuenta_correntista_Id(this.buscar_cuenta_correntista.buscar);
 
           this._cuenta_correntista_Service.cuenta_correntista_Id(this.cuenta_correntista_Id_Cuenta).subscribe(
             res => {
@@ -121,9 +109,7 @@ export class FacturacionComponent implements OnInit {
           );
           break;
         case "NIT":
-          buscar = JSON.stringify(this.buscar_cuenta_correntista);
-          _buscar = JSON.parse(buscar);
-          this.cuenta_correntista_NIT = new Cuenta_correntista_NIT(_buscar.buscar);
+          this.cuenta_correntista_NIT = new Cuenta_correntista_NIT(this.buscar_cuenta_correntista.buscar);
 
           this._cuenta_correntista_Service.cuenta_correntista_NIT(this.cuenta_correntista_NIT).subscribe(
             res => {
@@ -187,16 +173,13 @@ export class FacturacionComponent implements OnInit {
   //Buscar producto
   public SearchProd() {
 
-    let buscar = JSON.stringify(this.buscar_producto);
-    let _buscar = JSON.parse(buscar)
-
-    if (!_buscar.buscar) {
+    if (!this.buscar_producto.buscar) {
       this.listProd();
     } else {
       //validar si se busca por Id o por descripcion
-      if (isNaN(_buscar.buscar)) {
+      if (isNaN(this.buscar_producto.buscar)) {
         //Buscar por Descripcion
-        this.producto_Descripcion = new Producto_Descripcion(_buscar.buscar)
+        this.producto_Descripcion = new Producto_Descripcion(this.buscar_producto.buscar)
         this._producto_Service.producto_Descripcion(this.producto_Descripcion).subscribe(
           res => {
             this.prodIdentity = res[0];
@@ -211,7 +194,7 @@ export class FacturacionComponent implements OnInit {
         );
       } else {
         //si el campo para buscar tiene solo numeros se busca por Id
-        this.producto_producto = new Producto_Producto(_buscar.buscar);
+        this.producto_producto = new Producto_Producto(this.buscar_producto.buscar);
         this._producto_Service.producto_Producto(this.producto_producto).subscribe(
           res => {
             this.prodIdentity = res[0];

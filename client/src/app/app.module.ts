@@ -19,6 +19,7 @@ import { FacturacionComponent } from './facturacion/facturacion.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { OrdenesDeServicioComponent } from './ordenes-de-servicio/ordenes-de-servicio.component';
 import { NuevaCuentaCorrentistaComponent } from './nueva-cuenta-correntista/nueva-cuenta-correntista.component';
+import { ListaCuentasOrdenDeServicoComponent } from './lista-cuentas-orden-de-servico/lista-cuentas-orden-de-servico.component';
 
 
 const appRoutes: Routes = [
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     FacturacionComponent,
     UserInfoComponent,
     OrdenesDeServicioComponent,
-    NuevaCuentaCorrentistaComponent
+    NuevaCuentaCorrentistaComponent,
+    ListaCuentasOrdenDeServicoComponent
   ],
   imports: [
     BrowserModule,

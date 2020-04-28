@@ -10,7 +10,7 @@
 <div class="tab-content top" id="nav-tabContent">
     <!--Pestaña Documento-->
     <div class="tab-pane fade show active" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
-        <div class="container top">
+        <div class="container top" *ngIf="!listaCuentas && !listaColaborador">
             <div class="row align-items-end">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="center100">
@@ -22,26 +22,26 @@
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 topNom">
-                    <div class="center100 blockmov">
+                    <div class="center100 blockmov" *ngIf="cuentaIdentity">
                         <div>
                             <label>NIT</label>
                         </div>
-                        <input type="text" class="input100" class="input100">
+                        <input type="text" class="input100" class="input100" readonly="readonly" value="{{cuentaIdentity.NIT}}">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="center100 topNom blockmov">
+                    <div class="center100 topNom blockmov" *ngIf="cuentaIdentity">
                         <div>
                             <label>Nombre</label>
                         </div>
-                        <input type="text" class="input100">
+                        <input type="text" class="input100" readonly="readonly" value="{{cuentaIdentity.Nombre}}">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="container top">
-            <div class="row top borderblock">
+        <div class="container top" *ngIf="!listaCuentas && !listaColaborador">
+            <div class="row top borderblock align-items-end">
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top">
                     <div class="center100">
                         <div>
@@ -56,8 +56,12 @@
                         <div>
                             <label>Cuenta</label>
                         </div>
-                        <input type="text" class="input100">
-                        <i class="fas fa-search" id="searchClient"></i>
+                        <input *ngIf="!cuentaIdentity" type="text" class="input100" #Cuenta="ngModel" name="Cuenta" [(ngModel)]="buscar_cuenta_correntista.buscar">
+                        <i *ngIf="!cuentaIdentity" class="fas fa-search" id="searchClient" (click)="buscarCenta()"></i>
+                    </div>
+                    <div class="center100" *ngIf="cuentaIdentity && !listaCuentas">
+                        <label>Nombre: {{cuentaIdentity.Nombre}}</label>
+                        <i class="fas fa-ban" id="searchClient" (click)="editarCuenta()"></i>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top">
@@ -65,8 +69,12 @@
                         <div>
                             <label>Colaborador</label>
                         </div>
-                        <input type="text" class="input100">
-                        <i class="fas fa-search" id="searchClient"></i>
+                        <input *ngIf="!colaboradorIdentity" type="text" class="input100" #Colaborador="ngModel" name="Colaborador" [(ngModel)]="buscar_cuenta_correntistaColaborador.buscar">
+                        <i *ngIf="!colaboradorIdentity" class="fas fa-search" id="searchClient" (click)="buscarColaborador()"></i>
+                    </div>
+                    <div class="center100" *ngIf="colaboradorIdentity">
+                        <label>Nombre: {{colaboradorIdentity.Nombre}}</label>
+                        <i class="fas fa-ban" id="searchClient" (click)="editarColaborador()"></i>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top">
@@ -80,7 +88,19 @@
             </div>
         </div>
 
-        <div class="container top">
+        <div class="container" *ngIf="!listaCuentas && !listaColaborador">
+            <div class="row">
+                <div class="col">
+                    <div id="error" *ngIf="errorMessage" class="text-center">
+                        <div class="alert text-danger" role="alert">
+                            {{errorMessage}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top" *ngIf="!listaCuentas && !listaColaborador">
             <div class="row top">
                 <div class="col-lg-3 col-md-3">
                     <div class="center100">
@@ -102,6 +122,172 @@
             </div>
         </div>
 
+        <!--Buscar cuentas lista-->
+        <div class="container top" *ngIf="listaCuentas">
+            <div class="row">
+                <form #clinteForm="ngForm">
+                    <div class="menu10">
+                        <label>Filtrar por: </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="radio-inline"><input type="radio" name="filtro" value="Nombre" checked>Nombre</label>
+                        <label class="radio-inline"><input type="radio" name="filtro" value="Id">Id. Cuenta</label>
+                        <label class="radio-inline"><input type="radio" name="filtro" value="NIT">NIT</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="center100">
+                            <div>
+                                <label>Cuenta</label>
+                            </div>
+                            <input *ngIf="!cuentaIdentity" type="text" class="input100" #Cuenta="ngModel" name="Cuenta" [(ngModel)]="buscar_cuenta_correntista.buscar">
+                            <i *ngIf="!cuentaIdentity" class="fas fa-search" id="searchClient" (click)="buscarCuentaLista()"></i>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="container" *ngIf="listaCuentas">
+            <div class="row">
+                <div class="col">
+                    <div id="error" *ngIf="errorMessageListCuent" class="text-center">
+                        <div class="alert text-danger" role="alert">
+                            {{errorMessageListCuent}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top" *ngIf="listaCuentas">
+            <div class="table-responsive" id="tableSearch">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="border-dark"></th>
+                            <th scope="col" class="border-dark">Id</th>
+                            <th scope="col" class="border-dark">Nombre</th>
+                            <th scope="col" class="border-dark">NIT</th>
+                            <th scope="col" class="border-dark">Télefono</th>
+                            <th scope="col" class="border-dark">Celular</th>
+                            <th scope="col" class="border-dark">E-mail</th>
+                            <th scope="col" class="border-dark">Dirección</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let listClientIdentity of listaCuentas" class="border-dark">
+                        <tr>
+                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i>
+                            </td>
+                            <td *ngIf="_selectC"><i class="fas fa-ban" id="selectC" (click)="selectCC()"></i></td>
+                            <td>{{this.listClientIdentity.ID_Cuenta}}</td>
+                            <td>{{this.listClientIdentity.Nombre}}</td>
+                            <td>{{this.listClientIdentity.NIT}}</td>
+                            <td>{{this.listClientIdentity.Telefono}}</td>
+                            <td>{{this.listClientIdentity.Celular}}</td>
+                            <td>{{this.listClientIdentity.Email}}</td>
+                            <td>{{this.listClientIdentity.Direccion}}</td>
+                        </tr>
+                    </tbody>
+                    <!--Borde inferior-->
+                    <tbody class="border-dark">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!---->
+
+        <!--Buscar colaborador Lista-->
+        <div class="container top" *ngIf="listaColaborador">
+            <div class="row">
+                <form #clinteForm="ngForm">
+                    <div class="menu10">
+                        <label>Filtrar por: </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="radio-inline"><input type="radio" name="filtro" value="Nombre" checked>Nombre</label>
+                        <label class="radio-inline"><input type="radio" name="filtro" value="Id">Id. Cuenta</label>
+                        <label class="radio-inline"><input type="radio" name="filtro" value="NIT">NIT</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="center100">
+                            <div>
+                                <label>Colaborador</label>
+                            </div>
+                            <input *ngIf="!colaboradorIdentity" type="text" class="input100" #Colaborador="ngModel" name="Colaborador" [(ngModel)]="buscar_cuenta_correntistaColaborador.buscar">
+                            <i *ngIf="!colaboradorIdentity" class="fas fa-search" id="searchClient" (click)="buscarColaboradorLista()"></i>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="container" *ngIf="listaColaborador">
+            <div class="row">
+                <div class="col">
+                    <div id="error" *ngIf="errorMessageListColaborador" class="text-center">
+                        <div class="alert text-danger" role="alert">
+                            {{errorMessageListColaborador}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container top" *ngIf="listaColaborador">
+            <div class="table-responsive" id="tableSearch">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="border-dark"></th>
+                            <th scope="col" class="border-dark">Id</th>
+                            <th scope="col" class="border-dark">Nombre</th>
+                            <th scope="col" class="border-dark">NIT</th>
+                            <th scope="col" class="border-dark">Télefono</th>
+                            <th scope="col" class="border-dark">Celular</th>
+                            <th scope="col" class="border-dark">E-mail</th>
+                            <th scope="col" class="border-dark">Dirección</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let listClientIdentity of listaColaborador" class="border-dark">
+                        <tr>
+                            <td *ngIf="!_selectC"><i class="far fa-check-circle" id="selectC" (click)="selectC()"></i>
+                            </td>
+                            <td *ngIf="_selectC"><i class="fas fa-ban" id="selectC" (click)="selectCC()"></i></td>
+                            <td>{{this.listClientIdentity.ID_Cuenta}}</td>
+                            <td>{{this.listClientIdentity.Nombre}}</td>
+                            <td>{{this.listClientIdentity.NIT}}</td>
+                            <td>{{this.listClientIdentity.Telefono}}</td>
+                            <td>{{this.listClientIdentity.Celular}}</td>
+                            <td>{{this.listClientIdentity.Email}}</td>
+                            <td>{{this.listClientIdentity.Direccion}}</td>
+                        </tr>
+                    </tbody>
+                    <!--Borde inferior-->
+                    <tbody class="border-dark">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!---->
     </div>
 
     <!--Pestaña Transaccion -->
@@ -118,7 +304,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top top2">
                     <form>
                         <div>
-                            <input type="text" name="producto" class="input100" placeholder="Producto/Servicio" required autofocus>
+                            <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required autofocus>
                             <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
                         </div>
                     </form>
@@ -141,12 +327,13 @@
                     <div><label>Fecha</label></div>
                     <input type="date" class="input110 obsermov">
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top top2"></div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 top top2">
                     <textarea class="obsermov" placeholder="Observación"></textarea>
                     <i class="far fa-check-circle" id="searchClient" (click)="confirmTrans()"></i>
                     <i class="fas fa-ban" id="searchClient" (click)="cancelTrans()"></i>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top top2"></div>
+                <div class="col"></div>
             </div>
         </div>
 

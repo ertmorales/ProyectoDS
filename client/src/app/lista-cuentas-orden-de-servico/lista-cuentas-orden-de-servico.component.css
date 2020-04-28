@@ -1,0 +1,87 @@
+#error {
+    margin-top: 20px;
+}
+
+.menu10 {
+    margin-left: 15px;
+}
+
+#searchClient {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 17px;
+}
+
+#listClient {
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.alert {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+label {
+    font-size: 15px;
+}
+
+input {
+    margin-right: 5px;
+    margin-left: 25px;
+    font-size: 15px;
+}
+
+.input100 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #0F111C;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px #0d2c44 !important;
+}
+
+input:focus::-moz-placeholder {
+    color: transparent;
+}
+
+input:focus:-ms-input-placeholder {
+    color: transparent;
+}
+
+input::-webkit-input-placeholder {
+    color: #1e223a;
+}
+
+input:-moz-placeholder {
+    color: #1e223a;
+}
+
+input::-moz-placeholder {
+    color: #1e223a;
+}
+
+input:-ms-input-placeholder {
+    color: #1e223a;
+}
+
+::placeholder {
+    color: #1e223a;
+}
+
+::-moz-placeholder {
+    color: #1e223a;
+}
+
+@media (max-width: 768px) {
+    .valor100 {
+        width: 100%;
+    }
+    .label12 {
+        margin-left: 25px;
+    }
+    .top.top2 {
+        padding-top: 25px;
+    }
+}

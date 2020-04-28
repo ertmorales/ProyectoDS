@@ -35,7 +35,8 @@
     border: none;
     outline: none;
     border-bottom: solid 1px #252941;
-    width: 130px;
+    width: 150px;
+    text-align: center;
 }
 
 textarea {
