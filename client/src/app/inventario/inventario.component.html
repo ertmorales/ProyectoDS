@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="row align-items-end">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 top top2">
+            <form #productoForm="ngForm">
+                <div>
+                    <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required autofocus>
+                    <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
+                    <i *ngIf="prodIdentity" class="far fa-check-circle" id="searchClient" (click)="selectProd()"></i>
+                    <i *ngIf="prodIdentity" class="fas fa-ban" id="searchClient" (click)="cancelProd()"></i>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container top" *ngIf="errorMessageProd">
+    <div id="error" class="text-center">
+        <div class="alert text-danger" role="alert">
+            {{errorMessageProd}}
+        </div>
+    </div>
+</div>
+
+<div class="top">
+    <div class="container">
+        <div id="error" class="text-center">
+            <div class="alert text-danger" role="alert">
+                Inventario
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th scope="col " class="border-dark "></th>
+                        <th scope="col " class="border-dark ">Bodega</th>
+                        <th scope="col " class="border-dark ">Id</th>
+                        <th scope="col " class="border-dark ">Producto</th>
+                        <th scope="col " class="border-dark ">Unidad</th>
+                        <th scope="col " class="border-dark ">Clase Producto</th>
+                        <th scope="col " class="border-dark ">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let _listProdIdentity of listProdIdentity " class="border-dark ">
+                    <tr>
+                        <td *ngIf="!_selectC "><i class="far fa-check-circle " id="selectC " (click)="selectC() "></i>
+                        </td>
+                        <td *ngIf="_selectC "><i class="fas fa-ban " id="selectC " (click)="selectCC() "></i></td>
+                        <td>{{this._listProdIdentity.Bodega}}</td>
+                        <td>{{this._listProdIdentity.Id}}</td>
+                        <td>{{this._listProdIdentity.Producto}}</td>
+                        <td>{{this._listProdIdentity.Unidad}}</td>
+                        <td>{{this._listProdIdentity.Clase_Producto}}</td>
+                        <td>{{this._listProdIdentity.Cantidad}}</td>
+                    </tr>
+                </tbody>
+                <!--Borde inferior-->
+                <tbody class="border-dark ">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
