@@ -323,10 +323,14 @@ export class OrdenesDeServicioComponent implements OnInit {
 
   //check en observacion
   public confirmTrans() {
+    if (this._observacion){
     this.observacion.push(this._observacion);
     this._observacion = null;
     //Eliminar console
     console.log(this.observacion);
+    }else{
+      alert("Observación vacía")
+    }
   }
 
   //cancel en observacion
