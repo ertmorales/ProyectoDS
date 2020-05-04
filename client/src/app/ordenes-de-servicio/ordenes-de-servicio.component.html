@@ -292,7 +292,9 @@
 
     <!--Pestaña Transaccion -->
     <div class="tab-pane fade" id="nav-transaccion" role="tabpanel" aria-labelledby="nav-transaccion-tab">
-        <div class="container">
+
+        <!--Inventario oculto ngIf-->
+        <div class="container" *ngIf="listProdIdentity">
             <div class="row align-items-end">
                 <div class="col-lg-2 col-md-2 col col">
                     <div>
@@ -305,7 +307,9 @@
                     <form>
                         <div>
                             <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required autofocus>
-                            <i class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
+                            <i *ngIf="!prodIdentity" class="fas fa-search" id="searchClient" (click)="SearchProdInv()"></i>
+                            <i *ngIf="prodIdentity" class="far fa-check-circle" id="searchClient" (click)="selectProdInv()"></i>
+                            <i *ngIf="prodIdentity" class="fas fa-ban" id="searchClient" (click)="cancelProd()"></i>
                         </div>
                     </form>
                 </div>
@@ -321,7 +325,137 @@
             </div>
         </div>
 
-        <div class="container top">
+        <div class="container top top2" *ngIf="prodIdentity && listProdIdentity">
+            <div class="row">
+                <div class="col-lg-2 col-md-2"></div>
+                <div class="col">
+                    <div id="error">
+                        <div class="alert text-alert col-lg-4 col-md-4" role="alert">
+                            <div>
+                                <Label>Existencias:<input type="text " class="input1000 " readonly="readonly " value="{{prodIdentity.Cantidad}} "></Label>
+                            </div>
+                            <label class="prodInfo ">Producto: {{prodIdentity.Producto}}</label><br>
+                            <label class="prodInfo ">Unidad: {{prodIdentity.Unidad}}</label><br>
+                            <label class="prodInfo ">Id: {{prodIdentity.Id}}</label><br>
+                            <label class="prodInfo ">Clase Producto: {{prodIdentity.Clase_Producto}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top" *ngIf="listProdIdentity && erroMessageListInvent">
+            <div id="error" class="text-center">
+                <div class="alert text-danger" role="alert">
+                    {{erroMessageListInvent}}
+                </div>
+            </div>
+        </div>
+
+        <div class="top" *ngIf="listProdIdentity">
+            <div class="container">
+                <div id="error" class="text-center">
+                    <div class="alert text-danger" role="alert">
+                        Inventario
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col " class="border-dark "></th>
+                                <th scope="col " class="border-dark ">Bodega</th>
+                                <th scope="col " class="border-dark ">Id</th>
+                                <th scope="col " class="border-dark ">Producto</th>
+                                <th scope="col " class="border-dark ">Unidad</th>
+                                <th scope="col " class="border-dark ">Clase Producto</th>
+                                <th scope="col " class="border-dark ">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let _listProdIdentity of listProdIdentity " class="border-dark ">
+                            <tr>
+                                <td *ngIf="!_selectC "><i class="far fa-check-circle " id="selectC " (click)="selectC() "></i>
+                                </td>
+                                <td *ngIf="_selectC "><i class="fas fa-ban " id="selectC " (click)="selectCC() "></i></td>
+                                <td>{{this._listProdIdentity.Bodega}}</td>
+                                <td>{{this._listProdIdentity.Id}}</td>
+                                <td>{{this._listProdIdentity.Producto}}</td>
+                                <td>{{this._listProdIdentity.Unidad}}</td>
+                                <td>{{this._listProdIdentity.Clase_Producto}}</td>
+                                <td>{{this._listProdIdentity.Cantidad}}</td>
+                            </tr>
+                        </tbody>
+                        <!--Borde inferior-->
+                        <tbody class="border-dark ">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!---->
+
+        <div class="container" *ngIf="!listProdIdentity">
+            <div class="row align-items-end">
+                <div class="col-lg-2 col-md-2 col col">
+                    <div>
+                        <label class="label12">Cantidad:</label>
+                    </div>
+                    <input type="number" class="input1000" value="1">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top top2">
+                    <form>
+                        <div>
+                            <input type="text" #producto="ngModel" name="producto" [(ngModel)]="buscar_producto.buscar" class="input100" placeholder="Producto/Servicio" required autofocus>
+                            <i *ngIf="!prodIdentity" class="fas fa-search" id="searchClient" (click)="SearchProd()"></i>
+                            <i *ngIf="prodIdentity" class="far fa-check-circle" id="searchClient" (click)="selectProd()"></i>
+                            <i *ngIf="prodIdentity" class="fas fa-ban" id="searchClient" (click)="cancelProd()"></i>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col top top2">
+                    <div><label class="label12">Monto Unidad</label></div>
+                    <input type="text" value="0.00" class="input1000">
+                </div>
+                <div class="col top top2">
+                    <div><label class="label12">Monto</label></div>
+                    <input type="text" value="0.00" class="input1000">
+                </div>
+            </div>
+        </div>
+
+        <div class="container top top2" *ngIf="prodIdentity && !listProdIdentity">
+            <div class="row">
+                <div class="col-lg-2 col-md-2"></div>
+                <div class="col">
+                    <div id="error">
+                        <div class="alert text-alert col-lg-4 col-md-4" role="alert">
+                            <div>
+                                <Label>Existencias:<input type="text " class="input1000 " readonly="readonly " value="{{prodIdentity.Cantidad}} "></Label>
+                            </div>
+                            <label class="prodInfo ">Producto: {{prodIdentity.Producto}}</label><br>
+                            <label class="prodInfo ">Unidad: {{prodIdentity.Unidad}}</label><br>
+                            <label class="prodInfo ">Id: {{prodIdentity.Id}}</label><br>
+                            <label class="prodInfo ">Clase Producto: {{prodIdentity.Clase_Producto}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top" *ngIf="!listProdIdentity">
             <div class="row align-items-end">
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 top top2">
                     <div><label>Fecha</label></div>
@@ -329,7 +463,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 top top2"></div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 top top2">
-                    <textarea class="obsermov" placeholder="Observación"></textarea>
+                    <textarea class="obsermov" placeholder="Observación" #Observacion="ngModel" name="Observacion" [(ngModel)]="_observacion"></textarea>
                     <i class="far fa-check-circle" id="searchClient" (click)="confirmTrans()"></i>
                     <i class="fas fa-ban" id="searchClient" (click)="cancelTrans()"></i>
                 </div>
@@ -337,7 +471,7 @@
             </div>
         </div>
 
-        <div class="container top" *ngIf="errorMessageProd">
+        <div class="container top" *ngIf="errorMessageProd && !listProdIdentity">
             <div id="error" class="text-center">
                 <div class="alert text-danger" role="alert">
                     {{errorMessageProd}}
@@ -345,7 +479,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" *ngIf="!listProdIdentity">
             <div class="row align-self-end">
                 <div class="col-lg-8 col-md-8"></div>
                 <div class="col">
