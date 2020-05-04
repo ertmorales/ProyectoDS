@@ -63,6 +63,8 @@ export class AppComponent implements OnInit {
   //al inicar la página
   public ngOnInit() {
 
+    
+    //sessiones guardadas en local storage
     this.identity = this._userSrvice.getIdentity();
     this.token = this._userSrvice.getToken();
 
@@ -77,6 +79,7 @@ export class AppComponent implements OnInit {
     this.visibleUserInfo = JSON.parse(localStorage.getItem("visibleUserInfo"));
     this.visibleFact = JSON.parse(localStorage.getItem("visibleFact"));
     this.visibleOrdenServicio = JSON.parse(localStorage.getItem("visibleOrdenServicio"));
+    
   }
 
   //mostrar y ocultar el menu lateral
@@ -724,6 +727,7 @@ export class AppComponent implements OnInit {
       this.token = null;
       this.visibleFact = null;
       this.visibleOrdenServicio = null;
+      this.userLogin.Pass_Key = null;
     } else {
       return;
     }
