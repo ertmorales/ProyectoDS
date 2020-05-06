@@ -32,8 +32,7 @@ export class AppComponent implements OnInit {
   public token;
 
   //Alert
-  public errorMessage;
-
+  public errorMessage: any;
 
   //elemntos dentro de la pagina
   public visibleInit: boolean;
@@ -51,7 +50,7 @@ export class AppComponent implements OnInit {
   public loader: boolean = false;
 
   constructor(
-    //iniciar servicio
+    //iniciar servicios
     private _userSrvice: UsuarioService,
     private _serviceSql: ServiceSql,
     private _serviceMariaDB: ServiceMariaBD
@@ -62,24 +61,21 @@ export class AppComponent implements OnInit {
 
   //al inicar la página
   public ngOnInit() {
-
-    
-    //sessiones guardadas en local storage
+    //datos guardados en memoria, si se actualiuza la página no se cierra la sesion
     this.identity = this._userSrvice.getIdentity();
     this.token = this._userSrvice.getToken();
-
-    this.visibleInit = JSON.parse(localStorage.getItem("visibleInit"));
-    this.visibleSer01 = JSON.parse(localStorage.getItem("visibleSer01"));
-    this.visibleSer02 = JSON.parse(localStorage.getItem("visibleSer02"));
-    this.visibleSer03 = JSON.parse(localStorage.getItem("visibleSer03"));
-    this.visibleProd01 = JSON.parse(localStorage.getItem("visibleProd01"));
-    this.visibleProd02 = JSON.parse(localStorage.getItem("visibleProd02"));
-    this.visibleProd03 = JSON.parse(localStorage.getItem("visibleProd03"));
-    this.visibleContact = JSON.parse(localStorage.getItem("visibleContact"));
-    this.visibleUserInfo = JSON.parse(localStorage.getItem("visibleUserInfo"));
-    this.visibleFact = JSON.parse(localStorage.getItem("visibleFact"));
-    this.visibleOrdenServicio = JSON.parse(localStorage.getItem("visibleOrdenServicio"));
-    
+    //cargar pantallas que se tenian abiertas
+    this.visibleInit = JSON.parse(sessionStorage.getItem("visibleInit"));
+    this.visibleSer01 = JSON.parse(sessionStorage.getItem("visibleSer01"));
+    this.visibleSer02 = JSON.parse(sessionStorage.getItem("visibleSer02"));
+    this.visibleSer03 = JSON.parse(sessionStorage.getItem("visibleSer03"));
+    this.visibleProd01 = JSON.parse(sessionStorage.getItem("visibleProd01"));
+    this.visibleProd02 = JSON.parse(sessionStorage.getItem("visibleProd02"));
+    this.visibleProd03 = JSON.parse(sessionStorage.getItem("visibleProd03"));
+    this.visibleContact = JSON.parse(sessionStorage.getItem("visibleContact"));
+    this.visibleUserInfo = JSON.parse(sessionStorage.getItem("visibleUserInfo"));
+    this.visibleFact = JSON.parse(sessionStorage.getItem("visibleFact"));
+    this.visibleOrdenServicio = JSON.parse(sessionStorage.getItem("visibleOrdenServicio"));
   }
 
   //mostrar y ocultar el menu lateral
@@ -90,7 +86,6 @@ export class AppComponent implements OnInit {
 
   //Progress-Circle
   public viewLoader() {
-
     if (!this.loader) {
       this.loader = true;
     } else {
@@ -103,48 +98,19 @@ export class AppComponent implements OnInit {
     this.progressLogin = true;
     this._userSrvice.login(this.userLogin).subscribe(
       res => {
+        //datos del usuario
         this.identity = res[0];
-
         //guardar sesión
-        localStorage.setItem("identity", JSON.stringify(this.identity));
-        this._userSrvice.login(this.userLogin).subscribe(
-          res => {
-            var datejson = JSON.stringify(res);
-            let datjson = JSON.parse(datejson);
-            let token = datjson.token;
-            this.token = token;
-
-            if (this.token.length <= 0) {
-
-              this.progressLogin = false;
-
-              alert("Error al inicar sesion");
-
-
-            } else {
-              //crear elemento en loclstorage
-              localStorage.setItem("token", token);
-            }
-          },
-          err => {
-            var errorMessage = <any>err
-            if (errorMessage != null) {
-
-              this.progressLogin = false;
-              this.errorMessage = err.error.messaje;
-            }
-          }
-        );
-
+        sessionStorage.setItem("identity", JSON.stringify(this.identity));
+        //No mostrar progres bar
         this.progressLogin = false;
-        this.userLogin.UserName = "";
 
       },
       err => {
+        //en caso de error, muestra el error
         const errorMessage = <any>err;
         if (errorMessage != null) {
           console.log(err);
-
           this.progressLogin = false;
           this.errorMessage = err.error.message;
           this.userLogin.Pass_Key = "";
@@ -153,7 +119,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  //Sql -> MariaDB
+  //db Sql -> MariaDB
   syncData() {
     if (confirm("Se realizará una sincronizacion")) {
       this.viewLoader();
@@ -181,13 +147,12 @@ export class AppComponent implements OnInit {
           alert("Ha ocurrido un error");
         }
       );
-
     } else {
       return;
     }
   }
 
-  //MariaDB -> SQL Server
+  //db MariaDB -> SQL Server
   migrateData() {
     if (confirm("Se realizará una sincronización")) {
       this.viewLoader();
@@ -195,7 +160,6 @@ export class AppComponent implements OnInit {
         res => {
           let resFile = JSON.stringify(res);
           let fileJson = JSON.parse(resFile);
-
           this._serviceSql.setData(fileJson.message).subscribe(
             res => {
               console.log(fileJson.message);
@@ -217,7 +181,6 @@ export class AppComponent implements OnInit {
           alert("Ha ocurrido un error");
         }
       );
-
     } else {
       return;
     }
@@ -225,30 +188,29 @@ export class AppComponent implements OnInit {
 
   //informacion de usuario en imagen logo demososft #demolo
   public infoUser() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "true")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
-
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "true")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -267,29 +229,29 @@ export class AppComponent implements OnInit {
 
   //ver pantalla inicio
   public viewInit() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "true");
-    localStorage.setItem("visibleUserInfo", "false");
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "true");
+    sessionStorage.setItem("visibleUserInfo", "false");
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -303,36 +265,35 @@ export class AppComponent implements OnInit {
     this.visibleFact = false;
     this.visibleOrdenServicio = false;
 
-
     this.toggleTitle();
   }
 
 
   //ver facturacion
   public Facturacion(){
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "true" )
-    localStorage.setItem("visibleOrdenServicio", "false");
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "true" )
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -346,35 +307,34 @@ export class AppComponent implements OnInit {
     this.visibleFact = true;
     this.visibleOrdenServicio = false;
 
-
     this.toggleTitle();
   }
 
   //Orden de srvicio
   public OrdenDeServicio(){
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "true");
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "true");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -394,30 +354,29 @@ export class AppComponent implements OnInit {
 
   //ver pantalla ser 01
   public viewSer01() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "true");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
-
+    sessionStorage.setItem("visibleSer01", "true");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = true;
     this.visibleSer02 = false;
@@ -431,37 +390,34 @@ export class AppComponent implements OnInit {
     this.visibleFact = false;
     this.visibleOrdenServicio = false;
 
-
     this.toggleTitle();
-
   }
 
   //ver pantalla ser 02
   public viewSer02() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "true");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
-
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "true");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = true;
@@ -476,35 +432,33 @@ export class AppComponent implements OnInit {
     this.visibleOrdenServicio = false;
 
     this.toggleTitle();
-
   }
 
   //ver pantalla ser 03
   public viewSer03() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "true");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
-
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "true");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -518,37 +472,34 @@ export class AppComponent implements OnInit {
     this.visibleFact = false;
     this.visibleOrdenServicio = false;
 
-
     this.toggleTitle();
-
   }
 
   //ver pantalla prod 01
   public viewProd01() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "true");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
-
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "true");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -567,30 +518,29 @@ export class AppComponent implements OnInit {
 
   //ver pantalla prod 02
   public viewProd02() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "true");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
-
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "true");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -604,37 +554,34 @@ export class AppComponent implements OnInit {
     this.visibleFact = false;
     this.visibleOrdenServicio = false;
 
-
     this.toggleTitle();
-
   }
 
   //ver pantalla prod 03
   public viewProd03() {
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "true");
-    localStorage.setItem("visibleContact", "false");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
-
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "true");
+    sessionStorage.setItem("visibleContact", "false");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -649,35 +596,34 @@ export class AppComponent implements OnInit {
     this.visibleOrdenServicio = false;
 
     this.toggleTitle();
-
   }
 
   //ver pantalla contact
   public viewContact() {
 
-    localStorage.removeItem("visibleSer01");
-    localStorage.removeItem("visibleSer02");
-    localStorage.removeItem("visibleSer03");
-    localStorage.removeItem("visibleProd01");
-    localStorage.removeItem("visibleProd02");
-    localStorage.removeItem("visibleProd03");
-    localStorage.removeItem("visibleContact");
-    localStorage.removeItem("visibleInit");
-    localStorage.removeItem("visibleUserInfo");
-    localStorage.removeItem("visibleFact");
-    localStorage.removeItem("visibleOrdenServicio");
+    sessionStorage.removeItem("visibleSer01");
+    sessionStorage.removeItem("visibleSer02");
+    sessionStorage.removeItem("visibleSer03");
+    sessionStorage.removeItem("visibleProd01");
+    sessionStorage.removeItem("visibleProd02");
+    sessionStorage.removeItem("visibleProd03");
+    sessionStorage.removeItem("visibleContact");
+    sessionStorage.removeItem("visibleInit");
+    sessionStorage.removeItem("visibleUserInfo");
+    sessionStorage.removeItem("visibleFact");
+    sessionStorage.removeItem("visibleOrdenServicio");
 
-    localStorage.setItem("visibleSer01", "false");
-    localStorage.setItem("visibleSer02", "false");
-    localStorage.setItem("visibleSer03", "false");
-    localStorage.setItem("visibleProd01", "false");
-    localStorage.setItem("visibleProd02", "false");
-    localStorage.setItem("visibleProd03", "false");
-    localStorage.setItem("visibleContact", "true");
-    localStorage.setItem("visibleInit", "false");
-    localStorage.setItem("visibleUserInfo", "false")
-    localStorage.setItem("visibleFact", "false");
-    localStorage.setItem("visibleOrdenServicio", "false");
+    sessionStorage.setItem("visibleSer01", "false");
+    sessionStorage.setItem("visibleSer02", "false");
+    sessionStorage.setItem("visibleSer03", "false");
+    sessionStorage.setItem("visibleProd01", "false");
+    sessionStorage.setItem("visibleProd02", "false");
+    sessionStorage.setItem("visibleProd03", "false");
+    sessionStorage.setItem("visibleContact", "true");
+    sessionStorage.setItem("visibleInit", "false");
+    sessionStorage.setItem("visibleUserInfo", "false")
+    sessionStorage.setItem("visibleFact", "false");
+    sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
     this.visibleSer02 = false;
@@ -692,27 +638,26 @@ export class AppComponent implements OnInit {
     this.visibleOrdenServicio = false;
 
     this.toggleTitle();
-
   }
 
   //cerrar sesion
   public logout() {
     if (confirm("Está a punto de cerrar sesión")) {
-      localStorage.removeItem("identity");
-      localStorage.removeItem("token");
-      localStorage.removeItem("visibleSer01");
-      localStorage.removeItem("visibleSer02");
-      localStorage.removeItem("visibleSer03");
-      localStorage.removeItem("visibleProd01");
-      localStorage.removeItem("visibleProd02");
-      localStorage.removeItem("visibleProd03");
-      localStorage.removeItem("visibleContact");
-      localStorage.removeItem("visibleInit");
-      localStorage.removeItem("visibleFact");
-      localStorage.removeItem("visibleUserInfo");
-      localStorage.removeItem("visibleOrdenServicio");
+      sessionStorage.removeItem("identity");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("visibleSer01");
+      sessionStorage.removeItem("visibleSer02");
+      sessionStorage.removeItem("visibleSer03");
+      sessionStorage.removeItem("visibleProd01");
+      sessionStorage.removeItem("visibleProd02");
+      sessionStorage.removeItem("visibleProd03");
+      sessionStorage.removeItem("visibleContact");
+      sessionStorage.removeItem("visibleInit");
+      sessionStorage.removeItem("visibleFact");
+      sessionStorage.removeItem("visibleUserInfo");
+      sessionStorage.removeItem("visibleOrdenServicio");
       
-      localStorage.clear();
+      sessionStorage.clear();
 
       this.visibleSer01 = null;
       this.visibleSer02 = null;

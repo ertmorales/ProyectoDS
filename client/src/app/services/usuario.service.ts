@@ -24,7 +24,7 @@ export class UsuarioService {
 
  
     getIdentity(){
-        let identity = JSON.parse(localStorage.getItem("identity"));
+        let identity = JSON.parse(sessionStorage.getItem("identity"));
         if (identity != "undefined") {
             this.identity = identity;
         }else{
@@ -34,7 +34,7 @@ export class UsuarioService {
     }
 
     getToken(){
-        let token = localStorage.getItem("token");
+        let token = sessionStorage.getItem("token");
         if (token != "undefined") {
             this.token = token;
         } else {
