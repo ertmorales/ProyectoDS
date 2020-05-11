@@ -7,6 +7,10 @@
     background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
+.CuentaAtras {
+    font-size: 80px;
+}
+
 #logEmpresa {
     width: 125px;
     margin-bottom: 25px;

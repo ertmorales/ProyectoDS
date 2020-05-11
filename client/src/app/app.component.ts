@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
 
   //Alert
   public errorMessage: any;
+  public alertCloseSession: boolean = false;
 
   //elemntos dentro de la pagina
   public visibleInit: boolean;
@@ -49,6 +50,8 @@ export class AppComponent implements OnInit {
   public progressLogin: boolean = false;
   public loader: boolean = false;
 
+  public countSession: number = 10;
+
   constructor(
     //iniciar servicios
     private _userSrvice: UsuarioService,
@@ -61,6 +64,9 @@ export class AppComponent implements OnInit {
 
   //al inicar la página
   public ngOnInit() {
+    //Verificar a cada minuto si el usuario está activo
+    this.closeSessionInactive();
+
     //datos guardados en memoria, si se actualiuza la página no se cierra la sesion
     this.identity = this._userSrvice.getIdentity();
     this.token = this._userSrvice.getToken();
@@ -76,6 +82,50 @@ export class AppComponent implements OnInit {
     this.visibleUserInfo = JSON.parse(sessionStorage.getItem("visibleUserInfo"));
     this.visibleFact = JSON.parse(sessionStorage.getItem("visibleFact"));
     this.visibleOrdenServicio = JSON.parse(sessionStorage.getItem("visibleOrdenServicio"));
+  }
+
+  //cierre de sesion por inactividad
+  public closeSessionInactive(){
+    var minuts = 0;
+
+    setInterval(function activeInective(){
+
+      minuts = minuts + 1;
+
+      $(this).mousemove(function (e) {
+        minuts = 0;
+        this.alertCloseSession = false;
+      });
+      $(this).keypress(function (e) {
+        minuts = 0;
+        this.alertCloseSession = false;
+      });
+
+      console.log("minutos " + minuts);
+      
+      
+      //al minuto 5 de inactividad
+      if (minuts === 5) {
+
+        this.alertCloseSession = true;
+
+        clearInterval();
+
+        var countRetry = 10;
+        
+        setInterval(function RetryCount(){
+          countRetry = countRetry -1;
+          this.countSession = countRetry;
+          console.log(countRetry)
+          if (countRetry === 0) {
+            alert("Se cerrará la sesion");
+            clearInterval();
+            return;
+          }
+        },1000);
+      }
+   
+    }, 60000);
   }
 
   //mostrar y ocultar el menu lateral
@@ -105,6 +155,7 @@ export class AppComponent implements OnInit {
         //No mostrar progres bar
         this.progressLogin = false;
 
+
       },
       err => {
         //en caso de error, muestra el error
@@ -118,6 +169,19 @@ export class AppComponent implements OnInit {
       }
     );
   }
+
+  public countTimeInactibe(idleTime: number){
+    
+    if (idleTime === 5) {
+      alert("Se cerrará la sesion");
+      return;
+    } 
+  }
+
+
+
+
+
 
   //db Sql -> MariaDB
   syncData() {
@@ -270,7 +334,7 @@ export class AppComponent implements OnInit {
 
 
   //ver facturacion
-  public Facturacion(){
+  public Facturacion() {
     sessionStorage.removeItem("visibleSer01");
     sessionStorage.removeItem("visibleSer02");
     sessionStorage.removeItem("visibleSer03");
@@ -292,7 +356,7 @@ export class AppComponent implements OnInit {
     sessionStorage.setItem("visibleContact", "false");
     sessionStorage.setItem("visibleInit", "false");
     sessionStorage.setItem("visibleUserInfo", "false")
-    sessionStorage.setItem("visibleFact", "true" )
+    sessionStorage.setItem("visibleFact", "true")
     sessionStorage.setItem("visibleOrdenServicio", "false");
 
     this.visibleSer01 = false;
@@ -311,7 +375,7 @@ export class AppComponent implements OnInit {
   }
 
   //Orden de srvicio
-  public OrdenDeServicio(){
+  public OrdenDeServicio() {
     sessionStorage.removeItem("visibleSer01");
     sessionStorage.removeItem("visibleSer02");
     sessionStorage.removeItem("visibleSer03");
@@ -656,7 +720,7 @@ export class AppComponent implements OnInit {
       sessionStorage.removeItem("visibleFact");
       sessionStorage.removeItem("visibleUserInfo");
       sessionStorage.removeItem("visibleOrdenServicio");
-      
+
       sessionStorage.clear();
 
       this.visibleSer01 = null;

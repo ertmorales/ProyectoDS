@@ -1,163 +1,187 @@
-<div *ngIf="!identity">
-    <div class="container p-4">
-        <div class="row">
-            <div class="col-md-5 mx-auto">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div>
-                            <img src="assets/img/Empresa.png" id="logEmpresa">
-                        </div>
-
-                        <div *ngIf="errorMessage">
-                            <div class="alert text-danger" role="alert">
-                                {{errorMessage}}
-                            </div>
-
-                        </div>
-                        <form #loginForm="ngForm" (ngSubmit)="onLogin()">
-                            <div class="wrap-input100">
-                                <input type="text" #usuario="ngModel" name="usuario" [(ngModel)]="userLogin.UserName" placeholder="Usuario" class="input100" required>
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                
-                              <!--<i class="fas fa-user-lock" aria-hidden="true"></i>--> 
-                            </span>
-                            </div>
-                            <div class="wrap-input100">
-                                <input class="input100" type="password" #password="ngModel" [(ngModel)]="userLogin.Pass_Key" name="password" placeholder="Contraseña" required>
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                <!--<i class="fas fa-key" aria-hidden="true"></i>-->
-                            </span>
-                            </div>
-                            <div>
-                                <input type="submit" value="Iniciar Sesión" class="btn btn-dark btn-block">
-                            </div>
-                        </form>
-                        <div *ngIf="progressLogin" id="loadlogin">
-                            <div class="lds-ellipsis">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="assets/img/logo.png" id="logDemo">
-                            <p>Powered By: Dmosoft, S.A</p>
-                        </div>
-
+<div class="container p-4" *ngIf="alertCloseSession">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="alert text-danger" role="alert">
+                        Alerta de inactividad, la sesión se cerrará si no se realiza ninguna acción.
+                    </div>
+                    <div class="CuentaAtras">
+                        {{countSession}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div *ngIf="identity">
-    <div class="wrapper">
-        <!-- Menú lateral -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <img id="logo" src="assets/img/Empresa.png" class="center">
+
+<div *ngIf="!alertCloseSession">
+
+    <div *ngIf="!identity">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-md-5 mx-auto">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div>
+                                <img src="assets/img/Empresa.png" id="logEmpresa">
+                            </div>
+
+                            <div *ngIf="errorMessage">
+                                <div class="alert text-danger" role="alert">
+                                    {{errorMessage}}
+                                </div>
+
+                            </div>
+                            <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+                                <div class="wrap-input100">
+                                    <input type="text" #usuario="ngModel" name="usuario" [(ngModel)]="userLogin.UserName" placeholder="Usuario" class="input100" required>
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+
+                                        <!--<i class="fas fa-user-lock" aria-hidden="true"></i>-->
+                                    </span>
+                                </div>
+                                <div class="wrap-input100">
+                                    <input class="input100" type="password" #password="ngModel" [(ngModel)]="userLogin.Pass_Key" name="password" placeholder="Contraseña" required>
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <!--<i class="fas fa-key" aria-hidden="true"></i>-->
+                                    </span>
+                                </div>
+                                <div>
+                                    <input type="submit" value="Iniciar Sesión" class="btn btn-dark btn-block">
+                                </div>
+                            </form>
+                            <div *ngIf="progressLogin" id="loadlogin">
+                                <div class="lds-ellipsis">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div>
+                                <img src="assets/img/logo.png" id="logDemo">
+                                <p>Powered By: Dmosoft, S.A</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <ul class="list-unstyled components">
+        </div>
+    </div>
+    <div *ngIf="identity">
+        <div class="wrapper">
+            <!-- Menú lateral -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <img id="logo" src="assets/img/Empresa.png" class="center">
+                </div>
+                <ul class="list-unstyled components">
 
-                <li>
-                    <a href="#" (click)="viewInit()"><i class="left fas fa-home"></i>Inicio</a>
-                </li>
-
-                <li>
-                    <a (click)="Facturacion()" href="#"><i class="left fas fa-money-bill-wave"></i>Facturación</a>
-                </li>
-
-                <li>
-                    <a (click)="OrdenDeServicio()" href="#"><i class="left fas fa-clipboard-list"></i>Orden de Servicio</a>
-                </li>
-
-                <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="left fas fa-clipboard-list"></i>Servicios
-                    </a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a (click)="viewSer01()" href="#">Servicio 1</a>
-                        </li>
-                        <li>
-                            <a (click)="viewSer02()" href="#">Servicio 2</a>
-                        </li>
-                        <li>
-                            <a (click)="viewSer03()" href="#">Servicio 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="left fas fa-tags"></i>Productos
-                    </a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a (click)="viewProd01()" href="#">Productos 1</a>
-                        </li>
-                        <li>
-                            <a (click)="viewProd02()" href="#">Productos 2</a>
-                        </li>
-                        <li>
-                            <a (click)="viewProd03()" href="#">Productos 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a (click)="viewContact()" href="#"><i class="left fas fa-phone"></i>Contactanos</a>
-                </li>
-            </ul>
-            <div>
-                <ul class="list-unstyled closeSession">
                     <li>
-                        <a href="#settSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="left fas fa-cog"></i>Configuración
+                        <a href="#" (click)="viewInit()"><i class="left fas fa-home"></i>Inicio</a>
+                    </li>
+
+                    <li>
+                        <a (click)="Facturacion()" href="#"><i class="left fas fa-money-bill-wave"></i>Facturación</a>
+                    </li>
+
+                    <li>
+                        <a (click)="OrdenDeServicio()" href="#"><i class="left fas fa-clipboard-list"></i>Orden de
+                            Servicio</a>
+                    </li>
+
+                    <li>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="left fas fa-clipboard-list"></i>Servicios
                         </a>
-                        <ul class="collapse list-unstyled" id="settSubmenu">
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
                             <li>
-                                <a (click)="logout()" href="#"><i class="subLeft fas fa-door-closed"></i>Cerrar Sesión</a>
-                            </li>
-
-                            <li>
-                                <a (click)="syncData()" href="#"><i class="subLeft fas fa-database"></i><i class="subLeft fas fa-sync-alt"></i>Sincronizar</a>
+                                <a (click)="viewSer01()" href="#">Servicio 1</a>
                             </li>
                             <li>
-                                <a (click)="migrateData()" href="#"><i class="subLeft fas fa-database"></i><i class="subLeft fas fa-sync-alt"></i>Migrar</a>
+                                <a (click)="viewSer02()" href="#">Servicio 2</a>
                             </li>
-
+                            <li>
+                                <a (click)="viewSer03()" href="#">Servicio 3</a>
+                            </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="left fas fa-tags"></i>Productos
+                        </a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a (click)="viewProd01()" href="#">Productos 1</a>
+                            </li>
+                            <li>
+                                <a (click)="viewProd02()" href="#">Productos 2</a>
+                            </li>
+                            <li>
+                                <a (click)="viewProd03()" href="#">Productos 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a (click)="viewContact()" href="#"><i class="left fas fa-phone"></i>Contactanos</a>
+                    </li>
                 </ul>
-            </div>
-            <div class="author">
-                <img src="assets/img/logo.png" class="center" id="demolo" (click)="infoUser()">
-                <p>Powered By: Dmosoft, S.A.</p>
-            </div>
-        </nav>
+                <div>
+                    <ul class="list-unstyled closeSession">
+                        <li>
+                            <a href="#settSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="left fas fa-cog"></i>Configuración
+                            </a>
+                            <ul class="collapse list-unstyled" id="settSubmenu">
+                                <li>
+                                    <a (click)="logout()" href="#"><i class="subLeft fas fa-door-closed"></i>Cerrar
+                                        Sesión</a>
+                                </li>
 
-        <!-- contenido de la página -->
-        <div id="content">
+                                <li>
+                                    <a (click)="syncData()" href="#"><i class="subLeft fas fa-database"></i><i
+                                            class="subLeft fas fa-sync-alt"></i>Sincronizar</a>
+                                </li>
+                                <li>
+                                    <a (click)="migrateData()" href="#"><i class="subLeft fas fa-database"></i><i
+                                            class="subLeft fas fa-sync-alt"></i>Migrar</a>
+                                </li>
 
-            <div>
-                <i id="menubar" (click)="toggleTitle()" class="fas fa-bars"></i>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="author">
+                    <img src="assets/img/logo.png" class="center" id="demolo" (click)="infoUser()">
+                    <p>Powered By: Dmosoft, S.A.</p>
+                </div>
+            </nav>
+
+            <!-- contenido de la página -->
+            <div id="content">
+
+                <div>
+                    <i id="menubar" (click)="toggleTitle()" class="fas fa-bars"></i>
+                </div>
+                <app-nueva-cuenta-correntista *ngIf="visibleSer01"></app-nueva-cuenta-correntista>
+                <!--
+                    <app-ser01 *ngIf="visibleSer01"></app-ser01>
+                    -->
+                <app-ser02 *ngIf="visibleSer02"></app-ser02>
+                <app-ser03 *ngIf="visibleSer03"></app-ser03>
+                <app-prod01 *ngIf="visibleProd01"></app-prod01>
+                <app-prod02 *ngIf="visibleProd02"></app-prod02>
+                <app-prod03 *ngIf="visibleProd03"></app-prod03>
+                <app-contact *ngIf="visibleContact"></app-contact>
+                <app-load-task *ngIf="loader"></app-load-task>
+                <app-facturacion *ngIf="visibleFact"></app-facturacion>
+                <app-user-info *ngIf="visibleUserInfo"></app-user-info>
+                <app-ordenes-de-servicio *ngIf="visibleOrdenServicio"></app-ordenes-de-servicio>
             </div>
-            <app-nueva-cuenta-correntista *ngIf="visibleSer01"></app-nueva-cuenta-correntista>
-            <!--
-            <app-ser01 *ngIf="visibleSer01"></app-ser01>
-            -->
-            <app-ser02 *ngIf="visibleSer02"></app-ser02>
-            <app-ser03 *ngIf="visibleSer03"></app-ser03>
-            <app-prod01 *ngIf="visibleProd01"></app-prod01>
-            <app-prod02 *ngIf="visibleProd02"></app-prod02>
-            <app-prod03 *ngIf="visibleProd03"></app-prod03>
-            <app-contact *ngIf="visibleContact"></app-contact>
-            <app-load-task *ngIf="loader"></app-load-task>
-            <app-facturacion *ngIf="visibleFact"></app-facturacion>
-            <app-user-info *ngIf="visibleUserInfo"></app-user-info>
-            <app-ordenes-de-servicio *ngIf="visibleOrdenServicio"></app-ordenes-de-servicio>
         </div>
     </div>
 </div>

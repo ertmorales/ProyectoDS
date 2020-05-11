@@ -21,6 +21,7 @@ import { OrdenesDeServicioComponent } from './ordenes-de-servicio/ordenes-de-ser
 import { NuevaCuentaCorrentistaComponent } from './nueva-cuenta-correntista/nueva-cuenta-correntista.component';
 import { ListaCuentasOrdenDeServicoComponent } from './lista-cuentas-orden-de-servico/lista-cuentas-orden-de-servico.component';
 import { InventarioComponent } from './inventario/inventario.component';
+import { CuentaRegresivaComponent } from './cuenta-regresiva/cuenta-regresiva.component';
 
 
 const appRoutes: Routes = [
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     OrdenesDeServicioComponent,
     NuevaCuentaCorrentistaComponent,
     ListaCuentasOrdenDeServicoComponent,
-    InventarioComponent
+    InventarioComponent,
+    CuentaRegresivaComponent
   ],
   imports: [
     BrowserModule,
