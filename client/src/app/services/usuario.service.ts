@@ -7,6 +7,7 @@ export class UsuarioService {
     public url: string;
     public identity;
     public token;
+    public UUID;
 
     constructor(private _http: HttpClient){
         this.url = URL_APIS.ApiMariaDb.url;
@@ -22,7 +23,7 @@ export class UsuarioService {
         return this._http.post(this.url + "login", params, {headers: headers});
     }
 
- 
+    //informacion usuario
     getIdentity(){
         let identity = JSON.parse(sessionStorage.getItem("identity"));
         if (identity != "undefined") {
@@ -33,6 +34,7 @@ export class UsuarioService {
         return this.identity;
     }
 
+    //token con informacion usario
     getToken(){
         let token = sessionStorage.getItem("token");
         if (token != "undefined") {
@@ -42,5 +44,4 @@ export class UsuarioService {
         }
         return token;
     }
-
 }

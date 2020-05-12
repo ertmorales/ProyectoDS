@@ -9,6 +9,7 @@ import { UserLogin } from "./models/usuario.models/usuarioLogin";
 import { UsuarioService } from "./services/usuario.service";
 import { ServiceSql } from "./services/DataSqlServer";
 import { ServiceMariaBD } from "./services/DataMariaBD";
+import { DispositivoService } from "./services/dispositivo.service";
 
 
 //jQuery
@@ -19,7 +20,12 @@ declare var $: any;
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [ServiceMariaBD, UsuarioService, ServiceSql]
+  providers: [
+    ServiceMariaBD,
+    UsuarioService,
+    ServiceSql,
+    DispositivoService
+  ]
 })
 
 export class AppComponent implements OnInit {
@@ -30,6 +36,9 @@ export class AppComponent implements OnInit {
   //datos usuario
   public identity;
   public token;
+
+  //UUID dispositivo
+  public UUID;
 
   //Alert
   public errorMessage: any;
@@ -56,7 +65,8 @@ export class AppComponent implements OnInit {
     //iniciar servicios
     private _userSrvice: UsuarioService,
     private _serviceSql: ServiceSql,
-    private _serviceMariaDB: ServiceMariaBD
+    private _serviceMariaDB: ServiceMariaBD,
+    private _serviceDispositivos: DispositivoService
   ) {
     //iniciar Modelos (No es tan necesario)
     this.userLogin = new UserLogin("", "");
@@ -66,6 +76,10 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
     //Verificar a cada minuto si el usuario está activo
     this.closeSessionInactive();
+
+    //Obtiene UUID
+    this.generateUUID();
+
 
     //datos guardados en memoria, si se actualiuza la página no se cierra la sesion
     this.identity = this._userSrvice.getIdentity();
@@ -84,49 +98,193 @@ export class AppComponent implements OnInit {
     this.visibleOrdenServicio = JSON.parse(sessionStorage.getItem("visibleOrdenServicio"));
   }
 
-  //cierre de sesion por inactividad
-  public closeSessionInactive(){
-    var minuts = 0;
-
-    setInterval(function activeInective(){
-
-      minuts = minuts + 1;
-
-      $(this).mousemove(function (e) {
-        minuts = 0;
-        this.alertCloseSession = false;
-      });
-      $(this).keypress(function (e) {
-        minuts = 0;
-        this.alertCloseSession = false;
-      });
-
-      console.log("minutos " + minuts);
-      
-      
-      //al minuto 5 de inactividad
-      if (minuts === 5) {
-
-        this.alertCloseSession = true;
-
-        clearInterval();
-
-        var countRetry = 10;
-        
-        setInterval(function RetryCount(){
-          countRetry = countRetry -1;
-          this.countSession = countRetry;
-          console.log(countRetry)
-          if (countRetry === 0) {
-            alert("Se cerrará la sesion");
-            clearInterval();
-            return;
+  //Crear UUID
+  public async generateUUID() {
+    //localStorage.removeItem("UUID");
+    let UUID = this._serviceDispositivos.getUUID();
+    if (UUID === null) {
+      //Solicitar UUID al servidor
+      this._serviceDispositivos.generateUUId().subscribe(
+        async res => {
+          let uuid_disp = JSON.stringify(res);
+          let _res = JSON.parse(uuid_disp);
+          if (_res.message === null) {
+            alert("Ha ocurrido un error al identificar el dispositivo");
+          } else {
+            //Guardar UUID en base de datos
+            localStorage.setItem("UUID", _res.message);
+            await this.saveUUID(localStorage.getItem("UUID"));
+            console.log(localStorage.getItem("UUID"))
           }
-        },1000);
-      }
-   
-    }, 60000);
+        },
+        err => {
+          console.log(err);
+          alert("No se ha podido identificar el dispositivo")
+        }
+      );
+    } else {
+      //en base de datos colocar que el dispositivo esta activo
+      console.log({ UUID });
+    }
   }
+
+  //Guardar dispositivo en base de datos
+  public saveUUID(UUID: string) {
+    this._serviceDispositivos.setUUID(localStorage.getItem("UUID")).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+        alert("Ha ocurrido un error al registrar el dispositivo")
+      }
+    );
+  }
+
+  //cierre de sesion por inactividad
+
+  time: number = 0;
+  interval: any;
+
+  count: number = 15;
+  intervalRetry: any;
+
+  public closeSessionInactive() {
+
+    if (this._userSrvice.getIdentity()) {
+
+      this.interval = setInterval(() => {
+        this.time++;
+        console.log("Contando " + this.time)
+
+        if (this.time === 20) {
+          this.alertCloseSession = true;
+          clearInterval(this.interval);
+          this.time = 0;
+
+          this.intervalRetry = setInterval(() => {
+            this.count--;
+            console.log("quedan " + this.count);
+
+            if (this.count === 0) {
+              clearInterval(this.intervalRetry);
+              this.count = 15;
+
+              //
+              this.errorMessage = "La sesion ha caducado"
+              this.alertCloseSession = false;
+              sessionStorage.removeItem("identity");
+              sessionStorage.removeItem("token");
+              sessionStorage.removeItem("visibleSer01");
+              sessionStorage.removeItem("visibleSer02");
+              sessionStorage.removeItem("visibleSer03");
+              sessionStorage.removeItem("visibleProd01");
+              sessionStorage.removeItem("visibleProd02");
+              sessionStorage.removeItem("visibleProd03");
+              sessionStorage.removeItem("visibleContact");
+              sessionStorage.removeItem("visibleInit");
+              sessionStorage.removeItem("visibleFact");
+              sessionStorage.removeItem("visibleUserInfo");
+              sessionStorage.removeItem("visibleOrdenServicio");
+
+              sessionStorage.clear();
+
+              this.visibleSer01 = null;
+              this.visibleSer02 = null;
+              this.visibleSer03 = null
+              this.visibleProd01 = null;
+              this.visibleProd02 = null;
+              this.visibleProd03 = null;
+              this.visibleContact = null;
+              this.visibleInit = null;
+              this.visibleUserInfo = null;
+              this.identity = null;
+              this.token = null;
+              this.visibleFact = null;
+              this.visibleOrdenServicio = null;
+              this.userLogin.Pass_Key = null;
+              //
+
+            }
+
+          }, 1000);
+
+        }
+
+      }, 1000)
+
+
+    } else {
+      console.log("No se ha inicado sesion")
+    }
+  }
+
+  //continuar con la sesion, cancelar cierre por inactividad
+  public continue(){
+    this.alertCloseSession = false;
+    clearInterval(this.intervalRetry);
+   
+    this.interval = setInterval(() => {
+      this.time++;
+      console.log("Contando " + this.time)
+
+      if (this.time === 20) {
+        this.alertCloseSession = true;
+        clearInterval(this.interval);
+        this.time = 0;
+
+        this.intervalRetry = setInterval(() => {
+          this.count--;
+          console.log("quedan " + this.count);
+
+          if (this.count === 0) {
+            clearInterval(this.intervalRetry);
+            this.count = 15;
+
+            //
+            this.errorMessage = "La sesion ha caducado"
+            this.alertCloseSession = false;
+            sessionStorage.removeItem("identity");
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("visibleSer01");
+            sessionStorage.removeItem("visibleSer02");
+            sessionStorage.removeItem("visibleSer03");
+            sessionStorage.removeItem("visibleProd01");
+            sessionStorage.removeItem("visibleProd02");
+            sessionStorage.removeItem("visibleProd03");
+            sessionStorage.removeItem("visibleContact");
+            sessionStorage.removeItem("visibleInit");
+            sessionStorage.removeItem("visibleFact");
+            sessionStorage.removeItem("visibleUserInfo");
+            sessionStorage.removeItem("visibleOrdenServicio");
+
+            sessionStorage.clear();
+
+            this.visibleSer01 = null;
+            this.visibleSer02 = null;
+            this.visibleSer03 = null
+            this.visibleProd01 = null;
+            this.visibleProd02 = null;
+            this.visibleProd03 = null;
+            this.visibleContact = null;
+            this.visibleInit = null;
+            this.visibleUserInfo = null;
+            this.identity = null;
+            this.token = null;
+            this.visibleFact = null;
+            this.visibleOrdenServicio = null;
+            this.userLogin.Pass_Key = null;
+            //
+
+          }
+
+        }, 1000);
+
+      }
+
+    }, 1000)
+  }
+
 
   //mostrar y ocultar el menu lateral
   public toggleTitle() {
@@ -154,7 +312,8 @@ export class AppComponent implements OnInit {
         sessionStorage.setItem("identity", JSON.stringify(this.identity));
         //No mostrar progres bar
         this.progressLogin = false;
-
+        //verificar actividad del usuario
+        this.closeSessionInactive();
 
       },
       err => {
@@ -169,19 +328,6 @@ export class AppComponent implements OnInit {
       }
     );
   }
-
-  public countTimeInactibe(idleTime: number){
-    
-    if (idleTime === 5) {
-      alert("Se cerrará la sesion");
-      return;
-    } 
-  }
-
-
-
-
-
 
   //db Sql -> MariaDB
   syncData() {
@@ -737,6 +883,10 @@ export class AppComponent implements OnInit {
       this.visibleFact = null;
       this.visibleOrdenServicio = null;
       this.userLogin.Pass_Key = null;
+
+      clearInterval(this.interval);
+      this.errorMessage = null;
+
     } else {
       return;
     }
