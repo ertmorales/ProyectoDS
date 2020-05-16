@@ -141,7 +141,27 @@ export class AppComponent implements OnInit {
     );
   }
 
-  //cierre de sesion por inactividad
+/**
+ * Cierre de sesion por inactividad del usuario
+ * 1. Iniciar setInterval
+ * 2. Finalizar setInterval
+ * 3. Reiniciar setInterval
+ * 4. Acciones a realizar (cierre de sesion, muestra de alerta)
+ * 5. Verificar actividad del usuario con movimiento del mouse.
+ */
+
+ public activeUser(){
+   var active = 1;
+  $(this).mousemove(function (e) {
+    active = 0;
+    console.log("moviendo mouse dentro de la funcion")
+  });
+  $(this).keypress(function (e) {
+    console.log("Tocando teclado dentro de la funcion")
+    active = 0;
+  });
+  return active;
+ }
 
   time: number = 0;
   interval: any;
@@ -155,7 +175,12 @@ export class AppComponent implements OnInit {
 
       this.interval = setInterval(() => {
         this.time++;
-        console.log("Contando " + this.time)
+       
+
+        var active = this.activeUser();
+
+        console.log("Contando " + this.time+" y " + active)
+
 
         if (this.time === 20) {
           this.alertCloseSession = true;
@@ -219,14 +244,30 @@ export class AppComponent implements OnInit {
     }
   }
 
+  public alertP(){
+    console.log("Asi funciona pero no se que hacer")
+  }
+
   //continuar con la sesion, cancelar cierre por inactividad
   public continue(){
+
+    return console.log("Probando..")
+
     this.alertCloseSession = false;
     clearInterval(this.intervalRetry);
    
     this.interval = setInterval(() => {
       this.time++;
       console.log("Contando " + this.time)
+
+      $(this).mousemove(function (e) {
+        alert("puto por mover el mouse")
+      });
+      $(this).keypress(function (e) {
+        alert("puto por presionar una tecla")
+        this.alertCloseSession = false;
+      });
+      
 
       if (this.time === 20) {
         this.alertCloseSession = true;
